@@ -1,64 +1,40 @@
-# Jialun Cao's Homepage
+# 蒋红梅的个人主页
 
-Personal academic homepage: [jialuncao.github.io](https://jialuncao.github.io)
+个人主页：[jiangjin226-a11y.github.io](https://jiangjin226-a11y.github.io)
 
-## Structure
+## 页面结构
 
 ```
-index.html              ← homepage (single page)
-assets/css/homepage.css ← styles
-assets/js/homepage.js   ← GSAP animations + guppyLLM chat
-images/                 ← avatar, favicons
-google_scholar_crawler/ ← GitHub Action for citation stats
+index.html              ← 主页（单页）
+assets/css/homepage.css ← 样式
+assets/js/homepage.js   ← 动画
+images/                 ← 头像、图标
 ```
 
-## Local Preview
+## 本地预览
 
 ```bash
 python3 -m http.server 8079
 ```
 
-Then open `http://localhost:8079` (or use SSH tunnel: `ssh -L 8079:localhost:8079 user@server`).
+然后打开 `http://localhost:8079`。
 
-If the port is already in use:
+## 更新内容
 
-```bash
-fuser -k 8079/tcp && python3 -m http.server 8079
-```
+直接编辑 `index.html` 即可。
 
-## Update Content
-
-Edit `index.html` directly. Common updates:
-
-**Add a publication** — find the year block, add a line:
-```html
-<div class="pub-item">[C33] Author1, <span class="me">Jialun Cao</span>, Author2.
-<em>Paper Title.</em> <strong>VENUE 2027</strong>.
-<a href="https://...">[Paper]</a></div>
-```
-
-**Add a news item** — find `<!-- News -->`, add at the top:
-```html
-<div class="news-item"><span class="n-date">2027.01</span><span>Your news here.</span></div>
-```
-
-**Add a new page** (e.g. students, group) — create `students.html` at root, link the same CSS:
-```html
-<link rel="stylesheet" href="assets/css/homepage.css">
-```
-
-## Deploy
+## 部署
 
 ```bash
 git add -A
-git commit -m "Update homepage"
+git commit -m "更新主页"
 git push
 ```
 
-Site auto-deploys via GitHub Pages (no build step — `.nojekyll` skips Jekyll).
+通过 GitHub Pages 自动部署。
 
-## Acknowledgements
+## 鸣谢
 
-- Originally based on [AcadHomepage](https://github.com/RayeRen/acad-homepage.github.io)
-- Animations powered by [GSAP](https://greensock.com/gsap/)
-- Color palette inspired by [Nord](https://www.nordtheme.com/)
+- 基于 [AcadHomepage](https://github.com/RayeRen/acad-homepage.github.io) 开发
+- 动画由 [GSAP](https://greensock.com/gsap/) 驱动
+- 配色方案灵感来自 [Nord](https://www.nordtheme.com/)
