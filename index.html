@@ -1,384 +1,338 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>蒋红梅的个人主页</title>
-<link rel="stylesheet" href="assets/css/homepage.css">
+<title>蒋红梅 · 艺术与科技</title>
+<meta name="description" content="蒋红梅的个人主页 — 艺术与科技专业本科生，擅长平面设计、影视后期、AIGC创意、建模渲染">
 <link rel="icon" href="images/favicon.ico">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="images/site.webmanifest">
+<link rel="stylesheet" href="assets/css/homepage.css">
 </head>
 <body>
 
-<div class="page">
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <img src="images/avatar.jpg" alt="蒋红梅" class="s-avatar">
-  <h1 class="s-name">蒋红梅</h1>
-  <p class="s-role">艺术与科技专业本科生 @ 长沙师范学院</p>
-  <div class="theme-toggle" onclick="toggleTheme()"><span class="t-icon" id="themeIcon">&#9790;</span><span id="themeLabel">Light</span></div>
-  <div class="s-divider"></div>
-  <ul class="s-nav">
-    <li><a href="#about" class="active">About</a></li>
-    <li><a href="#news">News</a></li>
-    <li><a href="#pubs">专业技能</a></li>
-    <li><a href="#featured">实践经历</a></li>
-    <li><a href="#publications">课程成绩</a></li>
-    <li><a href="#teaching">实习经历</a></li>
-    <li><a href="#awards">教育背景</a></li>
-    <li><a href="#exp">工作经历</a></li>
-    <li><a href="#svc">能力展示</a></li>
-    <li><a href="#talks">自我评价</a></li>
-    <li><a href="#visitors">Visitors</a></li>
-  </ul>
-  <div class="s-links">
-    <span style="font-size:0.78rem;color:var(--gray-400)">&#9742; 13755153125</span>
-    <span style="font-size:0.78rem;color:var(--gray-400)">&#9993; jiangjin226@gmail.com</span>
+<!-- ====== NAV ====== -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">蒋红梅</a>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" class="nav-link">关于</a></li>
+      <li><a href="#skills" class="nav-link">技能</a></li>
+      <li><a href="#experience" class="nav-link">经历</a></li>
+      <li><a href="#education" class="nav-link">教育</a></li>
+      <li><a href="#works" class="nav-link">作品</a></li>
+      <li><a href="#contact" class="nav-link">联系</a></li>
+    </ul>
   </div>
-</aside>
+</nav>
 
-<!-- MAIN -->
-<div class="main">
-
-<!-- Hero -->
-<div class="hero" id="about">
+<!-- ====== HERO ====== -->
+<header class="hero" id="about">
+  <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">设计理念</div>
-    <h1 id="scramble-target">
-      <span class="line">用 <span class="hl">艺术创意</span> 与 <span class="hl">数字技术</span> 赋能</span>
-      <span class="line">用户体验设计与视觉传达</span>
-    </h1>
+    <div class="hero-avatar-wrap">
+      <img src="images/avatar.jpg" alt="蒋红梅" class="hero-avatar" loading="eager">
+    </div>
+    <h1 class="hero-name">蒋红梅</h1>
+    <p class="hero-role">艺术与科技 · 本科在读</p>
+    <p class="hero-sub">长沙师范学院 美术与设计学院</p>
     <div class="hero-tags">
-      <span class="hero-tag">平面设计</span>
-      <span class="hero-tag">影视后期</span>
-      <span class="hero-tag">AIGC创意</span>
-      <span class="hero-tag">建模渲染</span>
+      <span class="tag">平面设计</span>
+      <span class="tag">影视后期</span>
+      <span class="tag">AIGC创意</span>
+      <span class="tag">建模渲染</span>
+      <span class="tag">用户体验</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#skills" class="btn btn-primary">了解我</a>
+      <a href="#contact" class="btn btn-outline">联系我</a>
     </div>
   </div>
-</div>
+</header>
 
-<!-- 教育经历 -->
-<div class="sec gsap-fade" id="about-me">
-  <p class="intro">
-    我是 <strong>蒋红梅</strong>，就读于 <a href="https://www.cssf.cn/"><strong>长沙师范学院</strong></a> 美术与设计学院，<strong>艺术与科技</strong>专业本科在读（2023.9 - 至今）。
-  </p>
-  <p class="intro">
-    主修课程涵盖形态构成、跨媒介技术、用户体验设计、信息可视化、计算机辅助设计、创意编程等领域。具备平面视觉设计、影视后期制作、建模与渲染、AIGC创意设计等多方面能力。曾在湖南省展览馆太空探索科普馆担任活动策划师，累计完成80+场讲解服务，服务观众超1200人次；在长沙市龙塘小学担任美术助教，累计110+课时创意美术教学。善于沟通，做事细心，具备良好的团队协作与项目落地能力。
-  </p>
-</div>
-
-<!-- Awards Banner -->
-<div class="awards-banner">
-  <div class="ab-card">
-    <div class="ab-card-inner">
-      <div class="ab-card-front"><span class="ab-icon">&#127891;</span><div class="ab-text"><strong>长沙师范学院 · 美术与设计学院</strong></div></div>
-      <div class="ab-card-back"><span class="ab-back-text">艺术与科技专业 · 本科在读 (2023.9 - 至今)</span></div>
-    </div>
-  </div>
-  <div class="ab-card">
-    <div class="ab-card-inner">
-      <div class="ab-card-front"><span class="ab-icon">&#127912;</span><div class="ab-text"><strong>专业方向：艺术创意 + 数字技术</strong></div></div>
-      <div class="ab-card-back"><span class="ab-back-text">融合艺术设计思维与前沿技术能力</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- Marquee -->
-<div class="marquee-wrap">
-  <div class="marquee-track" id="marquee">
-    <span>平面设计</span><span class="mq-dot">&bull;</span><span>影视后期</span><span class="mq-dot">&bull;</span><span>AIGC创意</span><span class="mq-dot">&bull;</span><span>建模渲染</span><span class="mq-dot">&bull;</span><span>用户体验设计</span><span class="mq-dot">&bull;</span><span>信息可视化</span><span class="mq-dot">&bull;</span><span>创意编程</span><span class="mq-dot">&bull;</span><span>跨媒介技术</span><span class="mq-dot">&bull;</span><span>形态构成</span><span class="mq-dot">&bull;</span><span>设计管理</span><span class="mq-dot">&bull;</span>
-    <span>平面设计</span><span class="mq-dot">&bull;</span><span>影视后期</span><span class="mq-dot">&bull;</span><span>AIGC创意</span><span class="mq-dot">&bull;</span><span>建模渲染</span><span class="mq-dot">&bull;</span><span>用户体验设计</span><span class="mq-dot">&bull;</span><span>信息可视化</span><span class="mq-dot">&bull;</span><span>创意编程</span><span class="mq-dot">&bull;</span><span>跨媒介技术</span><span class="mq-dot">&bull;</span><span>形态构成</span><span class="mq-dot">&bull;</span><span>设计管理</span><span class="mq-dot">&bull;</span>
-  </div>
-</div>
-
-<!-- Hiring -->
-<div class="sec gsap-fade">
-  <div class="hiring">
-    <h3>&#128172; 关于我</h3>
-    <p>一名热爱艺术与科技的设计专业本科生，具备扎实的设计功底与技术能力。<strong style="color:var(--primary);">善于沟通，细心负责，乐于学习新事物。</strong></p>
-    <div class="hiring-sub">核心能力：</div>
-    <ul><li>平面视觉设计（图片精修 / 海报与物料设计）</li><li>影视后期制作（短视频剪辑 / 宣传短片全流程）</li><li>建模与渲染（艺术装置 / 文创IP / 展厅可视化）</li><li>AIGC创意设计（AI场景生成 / 数字交互视觉落地）</li></ul>
-    <div class="hiring-tags">
-      <span class="h-tag">Photoshop</span>
-      <span class="h-tag">Illustrator</span>
-      <span class="h-tag">Premiere</span>
-      <span class="h-tag">Blender</span>
-      <span class="h-tag">AIGC工具</span>
-    </div>
-    <p style="margin-top:0.75rem; font-size:0.82rem;">&#128233; 联系方式：13755153125 | jiangjin226@gmail.com</p>
-  </div>
-</div>
-
-<!-- News -->
-<div class="sec alt gsap-fade" id="news">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">最新动态</div></div>
-  <div class="news-item"><span class="n-date">2026.03-06</span><span>&#128218; 在<strong>长沙市龙塘小学</strong>担任美术助教，累计110+课时创意美术教学</span></div>
-  <div class="news-item"><span class="n-date">2024.07-12</span><span>&#127963; 在<strong>湖南省展览馆太空探索科普馆</strong>担任活动策划师，完成80+场讲解服务</span></div>
-  <div class="news-item"><span class="n-date">2023.09</span><span>&#127891; 进入<strong>长沙师范学院 · 美术与设计学院</strong>，攻读艺术与科技专业本科</span></div>
-  <div class="news-item"><span class="n-date">主修课程</span><span>形态构成（96）跨媒介技术（92）用户体验设计（93）信息可视化（92）计算机辅助设计（91）创意编程（91）设计心理学（90）信息架构设计（91）影视剪辑与特效（90）设计管理（90）</span></div>
-</div>
-
-<!-- Visiting -->
-<div class="sec gsap-fade">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">经历时间线</div></div>
-  <div class="list-item"><span class="li-date">2023-至今</span><span><strong>长沙师范学院 · 美术与设计学院</strong> | 艺术与科技专业本科</span></div>
-  <div class="list-item"><span class="li-date">主修课程</span><span>形态构成（96）、跨媒介技术（92）、用户体验设计（93）、信息可视化（92）、计算机辅助设计（91）、创意编程（91）、设计心理学（90）、信息架构设计（91）、影视剪辑与特效（90）、设计管理（90）</span></div>
-</div>
-
-<!-- 专业技能 -->
-<div class="sec alt gsap-fade" id="pubs">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">专业技能</div></div>
-
-  <div class="research-grid">
-
-  <!-- SKILL 1: 平面视觉设计 -->
-  <div class="research-topic" id="topic-benchmark" style="--topic-color:#0000C4">
-    <div class="research-topic-inner">
-      <div class="topic-header">
-        <span class="topic-num" style="background:rgba(0,0,196,0.1);color:#0000C4;">01</span>
-        <h2 class="topic-title" style="color:#0000C4;">平面视觉设计</h2>
-      </div>
-      <p class="topic-desc">可独立完成图片精修、海报与物料设计，具备扎实的美术功底与视觉表达能力。</p>
-      <div class="topic-animation-box" id="benchmarkAnim">
-        <div class="bench-switcher">
-          <button class="bench-btn active" data-bench="humaneval">PS 精修</button>
-          <button class="bench-btn" data-bench="mbpp">海报设计</button>
-          <button class="bench-btn" data-bench="livecodebench">物料设计</button>
-          <button class="bench-btn" data-bench="swebench">版式优化</button>
-          <button class="bench-btn" data-bench="cruxeval">图文排版</button>
+<!-- ====== ABOUT ====== -->
+<section class="section" id="about-section">
+  <div class="container">
+    <h2 class="section-title"><span class="section-num">01</span> 关于我</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>我是 <strong>蒋红梅</strong>，就读于 <strong>长沙师范学院</strong> 美术与设计学院，<strong>艺术与科技</strong> 专业本科在读（2023.9 - 至今）。</p>
+        <p>主修课程涵盖形态构成、跨媒介技术、用户体验设计、信息可视化、计算机辅助设计、创意编程等领域。具备平面视觉设计、影视后期制作、建模与渲染、AIGC创意设计等多方面能力。</p>
+        <p>曾在湖南省展览馆太空探索科普馆担任活动策划师，累计完成80+场讲解服务，服务观众超1200人次；在长沙市龙塘小学担任美术助教，累计110+课时创意美术教学。善于沟通，做事细心，具备良好的团队协作与项目落地能力。</p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <span class="stat-number" data-target="80">0</span><span class="stat-unit">+</span>
+            <span class="stat-label">讲解场次</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="1200">0</span><span class="stat-unit">+</span>
+            <span class="stat-label">服务观众</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="110">0</span><span class="stat-unit">+</span>
+            <span class="stat-label">教学课时</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="450">0</span><span class="stat-unit">+</span>
+            <span class="stat-label">作品批改</span>
+          </div>
         </div>
-        <div id="benchRows"></div>
       </div>
-    </div>
-  </div>
-
-  <!-- SKILL 2: 影视后期 -->
-  <div class="research-topic" id="topic-llm4se" style="--topic-color:#bf616a">
-    <div class="research-topic-inner">
-      <div class="topic-header">
-        <span class="topic-num" style="background:rgba(191,97,106,0.1);color:#bf616a;">02</span>
-        <h2 class="topic-title" style="color:#bf616a;">影视后期</h2>
-      </div>
-      <div class="topic-animation-box" id="nlToCodeAnim">
-        <div class="code-transform-container">
-          <div class="code-block" id="nlBlock">
-            <span class="label" style="color:#bf616a;">素材拍摄</span>
-            <p class="nl-line" data-delay="0">擅长短视频剪辑，曾独立完成宣传短片、新媒体短视频全流程制作。</p>
-          </div>
-          <div class="code-arrow">
-            <div class="arrow-inner">
-              <div class="arrow-line"></div>
-              <span class="arrow-text" style="color:#bf616a;">剪辑</span>
-              <div class="arrow-line"></div>
-            </div>
-          </div>
-          <div class="code-block" id="genBlock">
-            <span class="label" style="color:#34d399;">成片输出</span>
-            <div class="code-line" data-delay="4"><span class="syn-kw">剪辑</span> <span class="fn">粗剪</span> → 精剪 → 调色 → 音效</div>
-            <div class="code-line" data-delay="5">    <span class="syn-kw">特效</span> <span class="fn">字幕</span> 动画 转场 特效</div>
-            <div class="code-line" data-delay="6">    <span class="syn-kw">输出</span> <span class="fn">渲染</span> 格式转换 成片交付</div>
-          </div>
+      <div class="about-philosophy">
+        <div class="philosophy-card">
+          <span class="phil-icon">✦</span>
+          <h3>设计理念</h3>
+          <p>用艺术创意与数字技术，赋能用户体验设计与视觉传达</p>
+        </div>
+        <div class="philosophy-card">
+          <span class="phil-icon">❤</span>
+          <h3>工作态度</h3>
+          <p>善于沟通、细心负责、乐于学习新事物</p>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- SKILL 3: 建模与渲染 -->
-  <div class="research-topic" id="topic-fm" style="--topic-color:#34d399">
-    <div class="research-topic-inner">
-      <div class="topic-header">
-        <span class="topic-num" style="background:rgba(52,211,153,0.1);color:#34d399;">03</span>
-        <h2 class="topic-title" style="color:#34d399;">建模与渲染</h2>
+<!-- ====== SKILLS ====== -->
+<section class="section section-alt" id="skills">
+  <div class="container">
+    <h2 class="section-title"><span class="section-num">02</span> 专业技能</h2>
+    <div class="skills-grid">
+      <div class="skill-card" style="--card-accent: #e07a5f">
+        <div class="skill-icon">🎨</div>
+        <h3 class="skill-name">平面视觉设计</h3>
+        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+        <ul class="skill-list">
+          <li>图片精修</li>
+          <li>海报设计</li>
+          <li>物料设计</li>
+          <li>版式优化</li>
+          <li>图文排版</li>
+        </ul>
       </div>
-      <div class="topic-animation-box" id="acslAnim">
-        <div class="code-transform-container">
-          <div class="code-block" id="cCode">
-            <span class="label" style="color:var(--gray-400);">概念设计</span>
-            <div class="code-line" data-delay="0"><span class="syn-kw">需求分析</span> → <span class="fn">草图绘制</span></div>
-            <div class="code-line" data-delay="1">  <span class="syn-kw">建模</span> 多边形 / NURBS</div>
-            <div class="code-line" data-delay="2">    <span class="syn-kw">材质</span> 贴图 UV 展开</div>
-            <div class="code-line" data-delay="3">  <span class="syn-kw">灯光</span> 布光 渲染</div>
-            <div class="code-line" data-delay="4">输出成品</div>
+      <div class="skill-card" style="--card-accent: #81b29a">
+        <div class="skill-icon">🎬</div>
+        <h3 class="skill-name">影视后期</h3>
+        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+        <ul class="skill-list">
+          <li>短视频剪辑</li>
+          <li>宣传短片</li>
+          <li>全流程制作</li>
+          <li>调色音效</li>
+          <li>特效字幕</li>
+        </ul>
+      </div>
+      <div class="skill-card" style="--card-accent: #3d405b">
+        <div class="skill-icon">🧊</div>
+        <h3 class="skill-name">建模与渲染</h3>
+        <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+        <ul class="skill-list">
+          <li>艺术装置</li>
+          <li>文创IP设计</li>
+          <li>展厅可视化</li>
+          <li>产品效果图</li>
+          <li>三维建模</li>
+        </ul>
+      </div>
+      <div class="skill-card" style="--card-accent: #e09f5e">
+        <div class="skill-icon">🤖</div>
+        <h3 class="skill-name">AIGC创意设计</h3>
+        <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+        <ul class="skill-list">
+          <li>AI场景生成</li>
+          <li>创意素材</li>
+          <li>视觉方案</li>
+          <li>数字交互</li>
+          <li>AIGC赋能</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="tools-title">常用工具</h3>
+    <div class="tools-cloud">
+      <span class="tool-tag">Photoshop</span>
+      <span class="tool-tag">Illustrator</span>
+      <span class="tool-tag">Premiere</span>
+      <span class="tool-tag">Blender</span>
+      <span class="tool-tag">After Effects</span>
+      <span class="tool-tag">Midjourney</span>
+      <span class="tool-tag">Stable Diffusion</span>
+      <span class="tool-tag">Figma</span>
+      <span class="tool-tag">Canva</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== EXPERIENCE ====== -->
+<section class="section" id="experience">
+  <div class="container">
+    <h2 class="section-title"><span class="section-num">03</span> 实践经历</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026.03 — 2026.06</div>
+        <div class="tl-content">
+          <h3>美术助教</h3>
+          <div class="tl-place">长沙市龙塘小学</div>
+          <p>协助主讲老师管理美术班级，累计110+课时创意美术课程教学。课前准备绘画教具、示范绘画步骤，课后点评批改学生作品超450份，班级课堂纪律达标率与学员课堂完成度提升25%。</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2024.07 — 2024.12</div>
+        <div class="tl-content">
+          <h3>活动策划师</h3>
+          <div class="tl-place">湖南省展览馆太空探索科普馆</div>
+          <p>负责展馆参观接待与部分讲解工作，累计完成80+场散客、政企团体定制化讲解服务，服务观众超1200人次，观众好评率达95%。参与展厅展陈辅助设计落地，完成30+张展板内容校对、版式优化与图文排版工作，参与4个主题厅展品陈列布局调整。配合团队完成展馆日常运营和场地活动落地共12次。</p>
+          <div class="tl-tags">
+            <span class="tl-tag">展馆运营</span>
+            <span class="tl-tag">展陈设计</span>
+            <span class="tl-tag">讲解服务</span>
           </div>
-          <div class="code-arrow">
-            <div class="arrow-inner">
-              <div class="arrow-line"></div>
-              <span class="arrow-text" style="color:#34d399;">3D</span>
-              <div class="arrow-line"></div>
-            </div>
-          </div>
-          <div class="code-block" id="acslCode">
-            <span class="label" style="color:#34d399;">应用场景</span>
-            <div class="code-line acsl-line" data-delay="5"><span class="cm">/* 艺术装置建模 */</span></div>
-            <div class="code-line acsl-line" data-delay="6"><span class="cm">/* 文创IP设计 */</span></div>
-            <div class="code-line acsl-line" data-delay="7"><span class="cm">/* 展厅可视化 */</span></div>
-            <div class="code-line acsl-line" data-delay="8"><span class="cm">/* 产品效果图 */</span></div>
-            <div class="code-line" data-delay="10"><span class="syn-kw">适配</span> <span class="fn">各类输出需求</span></div>
-            <div class="code-line" data-delay="11">  <span class="syn-kw">渲染</span> 照片级效果</div>
-            <div class="code-line" data-delay="12">    <span class="syn-kw">优化</span> 迭代调整</div>
-            <div class="code-line" data-delay="13">  <span class="syn-kw">交付</span> 成品输出</div>
-            <div class="code-line" data-delay="14">}</div>
-          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2023.09 — 至今</div>
+        <div class="tl-content">
+          <h3>艺术与科技专业本科生</h3>
+          <div class="tl-place">长沙师范学院 · 美术与设计学院</div>
+          <p>系统学习艺术设计理论与数字技术课程，掌握平面设计、影视后期、建模渲染、AIGC创意设计等专业技能。主修课程成绩优异：形态构成96分、用户体验设计93分、跨媒介技术92分、信息可视化92分、计算机辅助设计91分、创意编程91分。</p>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- SKILL 4: AIGC创意设计 -->
-  <div class="research-topic" id="topic-se4ai" style="--topic-color:#4d6dff">
-    <div class="research-topic-inner">
-      <div class="topic-header">
-        <span class="topic-num" style="background:rgba(77,109,255,0.1);color:#4d6dff;">04</span>
-        <h2 class="topic-title" style="color:#4d6dff;">AIGC创意设计</h2>
+<!-- ====== EDUCATION ====== -->
+<section class="section section-alt" id="education">
+  <div class="container">
+    <h2 class="section-title"><span class="section-num">04</span> 教育背景</h2>
+    <div class="edu-card">
+      <div class="edu-header">
+        <div>
+          <h3>长沙师范学院</h3>
+          <p class="edu-major">艺术与科技 · 本科</p>
+        </div>
+        <span class="edu-year">2023 — 至今</span>
       </div>
-      <div class="topic-animation-box" id="nnBugAnim">
-        <svg id="nnSvg" viewBox="0 0 480 260" style="width:100%;max-width:480px;height:auto;">
-          <g id="nnEdges"></g>
-          <g id="nnNodes">
-            <circle class="nn-node" cx="60" cy="50" r="18" data-layer="0"/>
-            <circle class="nn-node" cx="60" cy="130" r="18" data-layer="0"/>
-            <circle class="nn-node" cx="60" cy="210" r="18" data-layer="0"/>
-            <circle class="nn-node" cx="190" cy="30" r="18" data-layer="1"/>
-            <circle class="nn-node" cx="190" cy="100" r="18" data-layer="1" data-buggy="true"/>
-            <circle class="nn-node" cx="190" cy="170" r="18" data-layer="1"/>
-            <circle class="nn-node" cx="190" cy="240" r="18" data-layer="1" data-buggy="true"/>
-            <circle class="nn-node" cx="320" cy="30" r="18" data-layer="2"/>
-            <circle class="nn-node" cx="320" cy="100" r="18" data-layer="2" data-buggy="true"/>
-            <circle class="nn-node" cx="320" cy="170" r="18" data-layer="2"/>
-            <circle class="nn-node" cx="320" cy="240" r="18" data-layer="2"/>
-            <circle class="nn-node" cx="430" cy="90" r="18" data-layer="3"/>
-            <circle class="nn-node" cx="430" cy="170" r="18" data-layer="3"/>
-          </g>
-          <text x="60" y="256" text-anchor="middle" class="nn-label">文生图</text>
-          <text x="190" y="256" text-anchor="middle" class="nn-label">图生图</text>
-          <text x="320" y="256" text-anchor="middle" class="nn-label">场景融合</text>
-          <text x="430" y="256" text-anchor="middle" class="nn-label">视觉落地</text>
-        </svg>
-        <div class="nn-status">
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--gray-400)">生成中... <span id="nnBugCount" style="color:var(--accent-warm);font-weight:700">0</span> 个创意方案</span>
+      <div class="edu-detail">
+        <p><strong>美术与设计学院</strong> — 融合艺术创意与数字技术的跨学科专业，培养具备艺术审美、设计思维与技术能力的复合型人才。</p>
+      </div>
+      <div class="edu-courses">
+        <h4>主修课程成绩</h4>
+        <div class="course-grid">
+          <span class="course-badge" style="--c-bg: rgba(224,122,95,0.12); --c-color: #e07a5f">形态构成 <strong>96</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(129,178,154,0.12); --c-color: #81b29a">用户体验设计 <strong>93</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(61,64,91,0.12); --c-color: #3d405b">跨媒介技术 <strong>92</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(224,159,94,0.12); --c-color: #e09f5e">信息可视化 <strong>92</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(130,130,200,0.12); --c-color: #5a5a8a">计算机辅助设计 <strong>91</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(180,140,200,0.12); --c-color: #8b5e8b">创意编程 <strong>91</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(200,150,120,0.12); --c-color: #a0765a">信息架构设计 <strong>91</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(100,150,180,0.12); --c-color: #4a7c9e">设计心理学 <strong>90</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(180,120,120,0.12); --c-color: #8c5c5c">影视剪辑与特效 <strong>90</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(120,160,140,0.12); --c-color: #5a7a6a">设计管理 <strong>90</strong></span>
         </div>
       </div>
     </div>
   </div>
+</section>
 
+<!-- ====== WORKS / ABILITIES ====== -->
+<section class="section" id="works">
+  <div class="container">
+    <h2 class="section-title"><span class="section-num">05</span> 能力展示</h2>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-icon">🖌</div>
+        <h3>设计软件</h3>
+        <ul>
+          <li>Photoshop — 图片精修、海报与物料设计</li>
+          <li>Illustrator — 矢量图形、插画与版式编排</li>
+          <li>Premiere — 视频剪辑、特效字幕与调色</li>
+          <li>Blender — 三维建模、材质贴图与渲染</li>
+        </ul>
+      </div>
+      <div class="work-card">
+        <div class="work-icon">⚡</div>
+        <h3>AIGC工具</h3>
+        <ul>
+          <li>AI工具进行创意素材与场景生成</li>
+          <li>AIGC赋能视觉方案创作</li>
+          <li>数字交互项目视觉落地</li>
+        </ul>
+      </div>
+      <div class="work-card">
+        <div class="work-icon">🌟</div>
+        <h3>专业素养</h3>
+        <ul>
+          <li>活泼开朗，善于沟通协作</li>
+          <li>冷静分析并解决问题</li>
+          <li>艺术创意与数字技术融合能力</li>
+          <li>做事细心，责任心强</li>
+        </ul>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="pub-grid" style="margin-top:1.5rem;">
-    <div class="pub-cat cat-bench"><div class="pc-head"><span class="pc-name">平面视觉设计</span><span class="pc-n">90/100</span></div><div class="pc-kw"><span class="kw">图片精修</span><span class="kw">海报设计</span><span class="kw">物料设计</span><span class="kw">版式优化</span><span class="kw">图文排版</span></div></div>
-    <div class="pub-cat cat-se"><div class="pc-head"><span class="pc-name">影视后期</span><span class="pc-n">90/100</span></div><div class="pc-kw"><span class="kw">短视频剪辑</span><span class="kw">宣传短片</span><span class="kw">全流程制作</span><span class="kw">调色音效</span><span class="kw">特效字幕</span></div></div>
-    <div class="pub-cat cat-fm"><div class="pc-head"><span class="pc-name">建模与渲染</span><span class="pc-n">75/100</span></div><div class="pc-kw"><span class="kw">艺术装置</span><span class="kw">文创IP</span><span class="kw">展厅可视化</span><span class="kw">产品效果图</span><span class="kw">三维建模</span></div></div>
-    <div class="pub-cat cat-seai"><div class="pc-head"><span class="pc-name">AIGC创意设计</span><span class="pc-n">85/100</span></div><div class="pc-kw"><span class="kw">AI场景生成</span><span class="kw">创意素材</span><span class="kw">视觉方案</span><span class="kw">数字交互</span><span class="kw">AIGC赋能</span></div></div>
+<!-- ====== SELF-EVALUATION ====== -->
+<section class="section section-alt" id="self-eval">
+  <div class="container">
+    <h2 class="section-title"><span class="section-num">06</span> 自我评价</h2>
+    <div class="eval-grid">
+      <blockquote class="eval-card">
+        <p>在日常生活中，我是一个活泼开朗且善于沟通的人，能够跟身边人都友好相处，面对事情可以冷静分析并提出解决方案。作为艺术与科技专业的学生，我具备艺术创意、数字技术、用户体验相关专业能力，熟练使用各类设计软件。</p>
+        <footer>— 性格与专业</footer>
+      </blockquote>
+      <blockquote class="eval-card">
+        <p>两段实习分别扎根在展馆文旅运营和少儿美术教育两个方向，不仅锻炼了面向大众的讲解表达、展厅展陈优化、线下活动落地统筹的实操能力，也积累了一些教学经验。</p>
+        <footer>— 实习感悟</footer>
+      </blockquote>
+      <blockquote class="eval-card">
+        <p>我很擅长站在受众的角度优化内容与视觉方案，既能做好创意设计落地，也能妥善把控现场运营的各类细节，沟通协作能力强，做事细心靠谱。</p>
+        <footer>— 工作理念</footer>
+      </blockquote>
+    </div>
   </div>
+</section>
 
-  <div class="sec-head" id="featured" style="margin-top:1.5rem;"><div class="sec-bar"></div><div class="sec-title">实践经历</div></div>
-
-  <div class="fw-list" style="margin-bottom:1.25rem;">
-    <div class="fw"><span class="fw-venue">展馆运营</span><div><h3>湖南省展览馆太空探索科普馆 — 活动策划与展陈设计</h3><div class="fw-meta">担任活动策划师，完成80+场散客、政企团体定制化讲解服务，服务观众超1200人次。参与展厅展陈辅助设计，完成30+张展板内容校对、版式优化，参与4个主题厅展品陈列布局调整。</div><div class="fw-links"><a class="fw-link">展品信息可读性显著提升</a><a class="fw-link">好评率95%</a></div></div></div>
-    <div class="fw"><span class="fw-venue">美术教育</span><div><h3>长沙市龙塘小学 — 创意美术课程助教</h3><div class="fw-meta">协助主讲老师管理美术班级，累计110+课时创意美术课程教学。课前准备绘画教具、示范绘画步骤，课后点评批改学生作品超450份，班级课堂纪律达标率与学员课堂完成度提升25%。</div><div class="fw-links"><a class="fw-link">教学实践</a><a class="fw-link">课堂管理</a></div></div></div>
-    <div class="fw"><span class="fw-venue">专业能力</span><div><h3>艺术与科技融合 — 跨领域设计实践</h3><div class="fw-meta">融合艺术创意与数字技术，熟练运用各类设计软件（PS、AI、Pr、Blender等）及AIGC工具，具备从创意构思到视觉落地的全流程能力。可独立完成平面设计、影视制作、三维建模等多元化设计任务。</div><div class="fw-links"><a class="fw-link">Photoshop</a><a class="fw-link">Illustrator</a><a class="fw-link">Premiere</a><a class="fw-link">Blender</a></div></div></div>
+<!-- ====== CONTACT ====== -->
+<section class="section" id="contact">
+  <div class="container">
+    <h2 class="section-title"><span class="section-num">07</span> 联系我</h2>
+    <div class="contact-card">
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <span>13755153125</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">✉</span>
+        <a href="mailto:jiangjin226@gmail.com">jiangjin226@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📍</span>
+        <span>长沙师范学院 · 美术与设计学院</span>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="sec-head" id="publications" style="margin-top:1.5rem;"><div class="sec-bar"></div><div class="sec-title">课程成绩</div><span class="sec-count">10门</span></div>
-
-  <div class="year-block open">
-    <div class="year-header" onclick="this.parentElement.classList.toggle('open')"><span class="year-label">主修课程</span><span class="year-count">10门</span><div class="year-venues"><span class="year-venue-tag">专业核心</span></div><span class="year-arrow">&#9654;</span></div>
-    <div class="year-body"><div class="year-body-inner">
-      <div class="pub-item">形态构成 <strong>96分</strong></div>
-      <div class="pub-item">跨媒介技术 <strong>92分</strong></div>
-      <div class="pub-item">用户体验设计 <strong>93分</strong></div>
-      <div class="pub-item">信息可视化 <strong>92分</strong></div>
-      <div class="pub-item">计算机辅助设计 <strong>91分</strong></div>
-      <div class="pub-item">创意编程 <strong>91分</strong></div>
-      <div class="pub-item">设计心理学 <strong>90分</strong></div>
-      <div class="pub-item">信息架构设计 <strong>91分</strong></div>
-      <div class="pub-item">影视剪辑与特效 <strong>90分</strong></div>
-      <div class="pub-item">设计管理 <strong>90分</strong></div>
-    </div></div>
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2026 蒋红梅 · 用艺术与科技创造美好</p>
   </div>
-</div>
+</footer>
 
-<!-- Teaching -->
-<div class="sec gsap-fade" id="teaching">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">实习经历</div></div>
-  <div class="list-item"><span class="li-date">2026.03-06</span><span><strong>美术助教</strong> @ 长沙市龙塘小学 &mdash; 创意美术课程教学，累计110+课时，批改学生作品超450份</span></div>
-  <div class="list-item"><span class="li-date">2024.07-12</span><span><strong>活动策划师</strong> @ 湖南省展览馆太空探索科普馆 &mdash; 80+场讲解服务，观众超1200人次，好评率95%</span></div>
-</div>
+<!-- ====== SCROLL TO TOP ====== -->
+<button class="scroll-top" id="scrollTop" aria-label="回到顶部">↑</button>
 
-<!-- Honors and Awards -->
-<div class="sec alt gsap-fade" id="awards">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">教育背景</div></div>
-  <ul class="awards-list">
-    <li><em>2023-至今</em> &mdash; 长沙师范学院 · 美术与设计学院 &mdash; 艺术与科技专业本科在读</li>
-    <li><em>主修课程</em> &mdash; 形态构成（96）、跨媒介技术（92）、用户体验设计（93）、信息可视化（92）、计算机辅助设计（91）、创意编程（91）</li>
-    <li><em>设计能力</em> &mdash; 平面视觉设计（90/100）、影视后期（90/100）、建模与渲染（75/100）、AIGC创意设计（85/100）</li>
-  </ul>
-</div>
-
-<!-- Working Experience -->
-<div class="sec alt gsap-fade" id="exp">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">工作经历</div></div>
-  <div class="tl"><div class="tl-y">2026.03 - 2026.06</div><div class="tl-t">美术助教</div><div class="tl-d">长沙市龙塘小学 &mdash; 协助主讲老师管理美术班级，累计110+课时创意美术课程教学，课前准备绘画教具、示范绘画步骤，课后点评批改学生作品超450份，班级课堂纪律达标率、学员课堂完成度提升25%</div></div>
-  <div class="tl"><div class="tl-y">2024.07 - 2024.12</div><div class="tl-t">活动策划师</div><div class="tl-d">湖南省展览馆太空探索科普馆 &mdash; 负责展馆参观接待与部分讲解工作，累计完成80+场散客、政企团体定制化讲解服务，服务观众超1200人次，观众现场好评率达95%；参与展厅展陈辅助设计落地，完成30+张展板内容校对、版式优化与图文排版工作，参与4个主题厅的展品陈列布局调整；配合团队完成展馆日常运营和场地活动落地共12次</div></div>
-  <div class="tl"><div class="tl-y">2023.09 - 至今</div><div class="tl-t">艺术与科技专业本科生</div><div class="tl-d">长沙师范学院 · 美术与设计学院 &mdash; 系统学习艺术设计理论与数字技术课程，掌握平面设计、影视后期、建模渲染、AIGC创意设计等专业技能</div></div>
-</div>
-
-<!-- Service -->
-<div class="sec gsap-fade" id="svc">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">能力展示</div></div>
-  <div class="svc-group"><div class="svc-label">设计软件</div><div class="svc-body"><ul>
-    <li>Photoshop &mdash; 图片精修、海报设计、物料设计</li>
-    <li>Illustrator &mdash; 矢量图形、插画设计、版式编排</li>
-    <li>Premiere &mdash; 视频剪辑、特效字幕、音画调色</li>
-    <li>Blender &mdash; 三维建模、材质贴图、灯光渲染</li>
-  </ul></div></div>
-  <div class="svc-group"><div class="svc-label">AIGC工具</div><div class="svc-body"><ul>
-    <li>熟练运用AI工具进行创意素材与场景生成</li>
-    <li>依托AIGC赋能视觉方案创作</li>
-    <li>具备数字交互类项目视觉落地能力</li>
-  </ul></div></div>
-  <div class="svc-group"><div class="svc-label">专业素养</div><div class="svc-body"><ul>
-    <li>活泼开朗，善于沟通，能与身边人友好相处</li>
-    <li>面对事情冷静分析并提出解决方案</li>
-    <li>具备艺术创意、数字技术、用户体验相关专业能力</li>
-    <li>做事细心靠谱，沟通协作能力强</li>
-  </ul></div></div>
-</div>
-
-<!-- Invited Talks -->
-<div class="sec alt gsap-fade" id="talks">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">自我评价</div></div>
-  <div class="list-item"><span class="li-date">自我评价</span><span>在日常生活中，我是一个活泼开朗且善于沟通的人，能够跟身边的人都友好相处，面对事情可以冷静分析并提出解决方案。同时作为艺术与科技专业的学生，我认为自己具备艺术创意、数字技术、用户体验相关专业能力，熟练使用各类设计软件。</span></div>
-  <div class="list-item"><span class="li-date">实习经历</span><span>两段实习分别扎根在展馆文旅运营和少儿美术教育两个方向，不仅锻炼了面向大众的讲解表达、展厅展陈优化、线下活动落地统筹的实操能力，也积累了一些教学经验。</span></div>
-  <div class="list-item"><span class="li-date">工作理念</span><span>我很擅长站在受众的角度优化内容与视觉方案，既能做好创意设计落地，也能妥善把控现场运营的各类细节，沟通协作能力强，做事细心靠谱。</span></div>
-</div>
-
-<!-- Visitors -->
-<div class="sec gsap-fade" id="visitors">
-  <div class="sec-head"><div class="sec-bar"></div><div class="sec-title">Visitors</div></div>
-  <div class="visitor-stats">
-    <div class="visitor-stat"><span class="visitor-num" id="visitor-count">0</span><span class="visitor-label">Unique Visitors</span></div>
-    <div class="visitor-stat"><span class="visitor-num" id="country-count">0</span><span class="visitor-label">Countries / Regions</span></div>
-  </div>
-  <div class="visitor-map-wrap">
-    <div id="visitor-map"></div>
-  </div>
-  <p class="visitor-notice" id="visitor-notice" style="display:none">Demo data shown. Configure Firebase to enable live tracking.</p>
-</div>
-
-<footer class="footer">Copyright &copy; 2026 蒋红梅</footer>
-
-<div class="chat-panel" id="chatPanel"><div class="chat-header"><span>&#128032; 智能助手</span><button class="chat-close" onclick="document.getElementById('chatPanel').classList.remove('open')">&times;</button></div><div class="chat-body" id="chatBody"><div class="chat-msg bot">Hi！我是蒋红梅的智能助手，欢迎询问关于我的技能、经历等信息！</div></div><div class="chat-input-row"><input class="chat-input" id="chatInput" placeholder="想了解蒋红梅的哪些信息？" onkeydown="if(event.key==='Enter')sendChat()"><button class="chat-send" onclick="sendChat()">Send</button></div></div>
-<div class="guppy-container" onclick="document.getElementById('chatPanel').classList.toggle('open')"><div class="guppy-tooltip">与我聊天</div><svg class="guppy-fish" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><ellipse cx="58" cy="40" rx="34" ry="22" fill="#5e81ac" opacity="0.9"/><ellipse cx="58" cy="46" rx="24" ry="12" fill="#88c0d0" opacity="0.5"/><path d="M24,40 Q8,24 14,12 Q20,22 24,30 Z" fill="#81a1c1" opacity="0.8"/><path d="M24,40 Q8,56 14,68 Q20,58 24,50 Z" fill="#81a1c1" opacity="0.8"/><path d="M50,18 Q58,4 70,16 Q62,18 54,18 Z" fill="#81a1c1" opacity="0.7"/><path d="M62,50 Q68,60 58,64 Q60,56 62,50 Z" fill="#81a1c1" opacity="0.6"/><circle cx="76" cy="36" r="5" fill="white"/><circle cx="77.5" cy="35.5" r="2.5" fill="#2e3440"/><circle cx="78.5" cy="34.5" r="1" fill="white"/><path d="M90,40 Q92,42 90,44" stroke="#4c566a" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="98" cy="30" r="2" fill="none" stroke="#88c0d0" stroke-width="0.8" opacity="0.5"><animate attributeName="cy" values="30;22;16" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.3;0" dur="2s" repeatCount="indefinite"/></circle><circle cx="102" cy="26" r="1.5" fill="none" stroke="#88c0d0" stroke-width="0.6" opacity="0.4"><animate attributeName="cy" values="26;18;10" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0.2;0" dur="2.5s" repeatCount="indefinite"/></circle><text x="52" y="43" font-family="Inter,sans-serif" font-size="7" font-weight="700" fill="#eceff4" opacity="0.7">LLM</text></svg></div>
-
-</div><!-- /main -->
-</div><!-- /page -->
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/js/homepage.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/js/visitor-tracker.js"></script>
 </body>
 </html>

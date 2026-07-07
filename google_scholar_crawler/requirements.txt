@@ -1,2 +1,0 @@
-scholarly
-httpx<0.28
