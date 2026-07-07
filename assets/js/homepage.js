@@ -498,7 +498,7 @@ function debounce(fn, wait) {
 console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
 
 // ═══════════════════════════════════════════════
-// 20. DYNAMIC GLITCH + DATA VISUALIZATION
+// 20. FLOWING PARTICLE NEBULA
 // ═══════════════════════════════════════════════
 (function() {
   var canvas = document.getElementById('particleCanvas');
@@ -507,14 +507,8 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
   var W, H, animId, time = 0;
   var mouseX = -1, mouseY = -1;
 
-  // ── Scan lines ──
-  var lines = [];
-  // ── Falling data drops ──
-  var drops = [];
-  // ── Floating particles ──
-  var floaters = [];
-  // ── Random burst shapes ──
-  var bursts = [];
+  var particles = [];
+  var NUM = 200;
 
   function resize() {
     var hero = canvas.parentElement;
@@ -523,217 +517,124 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
   }
 
   function init() {
-    lines = [];
-    for (var i = 0; i < 40; i++) {
-      lines.push({
-        y: Math.random() * H,
-        speed: 0.15 + Math.random() * 0.5,
-        amp: 2 + Math.random() * 6,
-        freq: 0.001 + Math.random() * 0.006,
-        phase: Math.random() * Math.PI * 2,
-        width: 1 + Math.random() * 5,
-        alpha: 0.04 + Math.random() * 0.08,
-      });
-    }
-    drops = [];
-    for (var j = 0; j < 30; j++) {
-      drops.push({
+    particles = [];
+    for (var i = 0; i < NUM; i++) {
+      particles.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        speed: 1 + Math.random() * 4,
-        len: 10 + Math.random() * 30,
-        alpha: 0.05 + Math.random() * 0.15,
-        width: 0.5 + Math.random() * 1.5,
-      });
-    }
-    floaters = [];
-    for (var k = 0; k < 20; k++) {
-      floaters.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: -0.1 - Math.random() * 0.4,
-        r: 0.5 + Math.random() * 2,
-        life: Math.random(),
-        maxLife: 1,
+        vx: 0, vy: 0,
+        r: 0.5 + Math.random() * 2.5,
         phase: Math.random() * Math.PI * 2,
-      });
-    }
-    bursts = [];
-  }
-
-  function spawnBurst(cx, cy) {
-    for (var b = 0; b < 8; b++) {
-      var angle = Math.random() * Math.PI * 2;
-      var speed = 1 + Math.random() * 3;
-      bursts.push({
-        x: cx, y: cy,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        r: 1 + Math.random() * 2,
-        life: 0,
-        maxLife: 40 + Math.random() * 40,
-        alpha: 0.3 + Math.random() * 0.4,
+        speed: 0.2 + Math.random() * 0.6,
+        baseAlpha: 0.2 + Math.random() * 0.6,
       });
     }
   }
 
   function draw(t) {
     ctx.clearRect(0, 0, W, H);
-    time = t * 0.001;
+    time = t * 0.0006;
     var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    var mult = isDark ? 1.0 : 0.55;
+    var mult = isDark ? 1.0 : 0.5;
 
-    // ── 1. Horizontal drift lines (glitch waves) ──
-    for (var li = 0; li < lines.length; li++) {
-      var g = lines[li];
-      g.y += g.speed * 0.4;
-      if (g.y > H + 20) g.y = -20;
-      var alpha = g.alpha * mult * (0.5 + 0.5 * Math.sin(time * 0.4 + li));
-      ctx.beginPath();
-      ctx.moveTo(0, g.y);
-      for (var x = 0; x < W; x += 3) {
-        var wy = g.y + Math.sin(x * 0.008 + time * 0.8 + g.phase) * g.amp * 0.5
-                      + Math.sin(x * 0.02 + time * 0.3) * g.amp * 0.3;
-        ctx.lineTo(x, wy);
-      }
-      ctx.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
-      ctx.lineWidth = g.width;
-      ctx.stroke();
-    }
+    // ── Flow field: each particle follows a curl-like vector field ──
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
 
-    // ── 2. Falling data drops ──
-    for (var di = 0; di < drops.length; di++) {
-      var d = drops[di];
-      d.y += d.speed * mult;
-      if (d.y > H + 20) { d.y = -20; d.x = Math.random() * W; }
-      var da = d.alpha * mult;
-      ctx.beginPath();
-      ctx.moveTo(d.x, d.y);
-      ctx.lineTo(d.x + (Math.random() - 0.5) * 2, d.y - d.len);
-      ctx.strokeStyle = 'rgba(255,255,255,' + da + ')';
-      ctx.lineWidth = d.width;
-      ctx.stroke();
-      // leading dot
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, d.width * 1.5, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,' + (da * 1.5) + ')';
-      ctx.fill();
-    }
+      // Flow field angle based on position + time
+      var angle = Math.sin(p.x * 0.004 + time * 2 + p.phase) * 3
+                + Math.cos(p.y * 0.004 + time * 1.5 + p.phase * 0.5) * 2
+                + Math.sin((p.x + p.y) * 0.003 + time) * 1.5;
 
-    // ── 3. Random glitch blocks (frequent, varied) ──
-    if (Math.random() < 0.015 * mult) {
-      var gy = Math.random() * H;
-      var gh = 2 + Math.random() * 15;
-      var gw = W * (0.05 + Math.random() * 0.4);
-      var gx = Math.random() * (W - gw);
-      var ga = (0.03 + Math.random() * 0.1) * mult;
-      ctx.fillStyle = 'rgba(255,255,255,' + ga + ')';
-      ctx.fillRect(gx, gy, gw, gh);
-      // slight offset copy for glitch feel
-      if (Math.random() < 0.3) {
-        ctx.fillStyle = 'rgba(255,255,255,' + (ga * 0.5) + ')';
-        ctx.fillRect(gx + (Math.random() - 0.5) * 10, gy + 1, gw * 0.5, gh);
+      var spd = p.speed * 0.3 * mult;
+      p.vx += Math.cos(angle) * spd * 0.04;
+      p.vy += Math.sin(angle) * spd * 0.04;
+
+      // Damping
+      p.vx *= 0.97;
+      p.vy *= 0.97;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap
+      if (p.x < -30) p.x = W + 30;
+      if (p.x > W + 30) p.x = -30;
+      if (p.y < -30) p.y = H + 30;
+      if (p.y > H + 30) p.y = -30;
+
+      // Mouse: gentle attract
+      if (mouseX > 0 && mouseY > 0) {
+        var dx = mouseX - p.x;
+        var dy = mouseY - p.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          var force = (120 - dist) / 120 * 0.03;
+          p.vx += (dx / (dist + 1)) * force;
+          p.vy += (dy / (dist + 1)) * force;
+        }
       }
     }
 
-    // ── 4. Vertical scan line ──
-    var scanY = (time * 80) % H;
-    ctx.beginPath();
-    ctx.moveTo(0, scanY);
-    ctx.lineTo(W, scanY);
-    ctx.strokeStyle = 'rgba(255,255,255,' + (0.06 * mult) + ')';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    // second scan
-    var scanY2 = (time * 80 + H * 0.4) % H;
-    ctx.beginPath();
-    ctx.moveTo(0, scanY2);
-    ctx.lineTo(W, scanY2);
-    ctx.strokeStyle = 'rgba(255,255,255,' + (0.03 * mult) + ')';
-    ctx.lineWidth = 0.5;
-    ctx.stroke();
-
-    // ── 5. Floating particles (slowly rise) ──
-    for (var fi = 0; fi < floaters.length; fi++) {
-      var fl = floaters[fi];
-      fl.x += fl.vx * mult;
-      fl.y += fl.vy * mult;
-      fl.life += 0.003;
-      if (fl.life > fl.maxLife || fl.y < -20 || fl.x < -20 || fl.x > W + 20) {
-        fl.x = Math.random() * W;
-        fl.y = H + 10 + Math.random() * 20;
-        fl.life = 0;
-        fl.maxLife = 0.5 + Math.random() * 0.8;
-        fl.vy = -0.1 - Math.random() * 0.5;
-        fl.vx = (Math.random() - 0.5) * 0.6;
+    // ── Draw connections (nearest neighbors) ──
+    ctx.lineWidth = 0.4;
+    for (var j = 0; j < particles.length; j += 2) {
+      var a = particles[j];
+      for (var k = j + 2; k < particles.length; k += 2) {
+        var b = particles[k];
+        var dx2 = a.x - b.x;
+        var dy2 = a.y - b.y;
+        var d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        if (d2 < 100) {
+          var ca = (1 - d2 / 100) * 0.12 * mult;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = 'rgba(255,255,255,' + ca + ')';
+          ctx.stroke();
+        }
       }
-      var flAlpha = (1 - fl.life / fl.maxLife) * 0.4 * mult;
-      ctx.beginPath();
-      ctx.arc(fl.x, fl.y, fl.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,' + flAlpha + ')';
-      ctx.fill();
-      // glow
-      ctx.beginPath();
-      ctx.arc(fl.x, fl.y, fl.r * 3, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,' + (flAlpha * 0.15) + ')';
-      ctx.fill();
     }
 
-    // ── 6. Burst particles (spawned by mouse or randomly) ──
-    for (var bi = bursts.length - 1; bi >= 0; bi--) {
-      var bu = bursts[bi];
-      bu.x += bu.vx;
-      bu.y += bu.vy;
-      bu.vx *= 0.97;
-      bu.vy *= 0.97;
-      bu.life++;
-      if (bu.life > bu.maxLife) { bursts.splice(bi, 1); continue; }
-      var ba = (1 - bu.life / bu.maxLife) * bu.alpha * mult;
+    // ── Draw particles ──
+    for (var pi = 0; pi < particles.length; pi++) {
+      var pt = particles[pi];
+      var a = pt.baseAlpha * mult * (0.7 + 0.3 * Math.sin(time * 3 + pt.phase));
+
+      // Brighter near mouse
+      if (mouseX > 0 && mouseY > 0) {
+        var dmx = pt.x - mouseX;
+        var dmy = pt.y - mouseY;
+        var dmDist = Math.sqrt(dmx * dmx + dmy * dmy);
+        if (dmDist < 120) a += (1 - dmDist / 120) * 0.3;
+      }
+
       ctx.beginPath();
-      ctx.arc(bu.x, bu.y, bu.r * (1 - bu.life / bu.maxLife * 0.5), 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,' + ba + ')';
+      ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + Math.min(a, 1) + ')';
       ctx.fill();
+
+      // Glow
+      if (pt.r > 1.2) {
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, pt.r * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (a * 0.1) + ')';
+        ctx.fill();
+      }
     }
 
-    // Random burst (occasional)
-    if (Math.random() < 0.008 * mult) {
-      spawnBurst(Math.random() * W, Math.random() * H);
-    }
-
-    // ── 7. Mouse interaction ──
-    if (mouseX > 0 && mouseY > 0) {
-      // Spawn burst on mouse move
-      if (Math.random() < 0.08) spawnBurst(mouseX, mouseY);
-
-      // Mouse glow ring
-      var pulseR = 30 + 15 * Math.sin(time * 3);
-      ctx.beginPath();
-      ctx.arc(mouseX, mouseY, pulseR, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255,255,255,' + (0.07 * mult) + ')';
-      ctx.lineWidth = 0.5;
-      ctx.stroke();
-
-      // Inner glow
-      var grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 50);
-      grad.addColorStop(0, 'rgba(255,255,255,' + (0.04 * mult) + ')');
+    // ── Occasional bright pulse (like a nebula flash) ──
+    var pulse = Math.sin(time * 0.5) * 0.5 + 0.5;
+    if (pulse > 0.98) {
+      var px = Math.sin(time * 0.7) * W * 0.3 + W * 0.5;
+      var py = Math.cos(time * 0.6) * H * 0.3 + H * 0.5;
+      var grad = ctx.createRadialGradient(px, py, 0, px, py, 120);
+      grad.addColorStop(0, 'rgba(255,255,255,' + (0.03 * mult) + ')');
       grad.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(mouseX, mouseY, 50, 0, Math.PI * 2);
+      ctx.arc(px, py, 120, 0, Math.PI * 2);
       ctx.fill();
-
-      // Orbiting dots
-      for (var oi = 0; oi < 3; oi++) {
-        var ang = time * 2 + oi * Math.PI * 0.67;
-        var dist = 20 + 15 * Math.sin(time * 2.5 + oi);
-        var ox = mouseX + Math.cos(ang) * dist;
-        var oy = mouseY + Math.sin(ang) * dist;
-        ctx.beginPath();
-        ctx.arc(ox, oy, 1.2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,' + (0.25 * mult) + ')';
-        ctx.fill();
-      }
     }
 
     animId = requestAnimationFrame(draw);
