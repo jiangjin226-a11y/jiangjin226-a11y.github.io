@@ -21,7 +21,7 @@
 
   // ─── 水母对象 ───
   function createJelly() {
-    var size = 22 + Math.random() * 48;
+    var size = 30 + Math.random() * 60;
     return {
       x: Math.random() * W,
       y: H + 50 + Math.random() * 200,
@@ -34,13 +34,13 @@
       tentacleLen: 0.6 + Math.random() * 0.4,
       pulsePhase: Math.random() * Math.PI * 2,
       pulseSpeed: 0.015 + Math.random() * 0.025,
-      alpha: 0.08 + Math.random() * 0.15,
+      alpha: 0.15 + Math.random() * 0.2,
       hue: Math.random() > 0.4 ? 0 : 210,
       drift: (Math.random() - 0.5) * 0.15,
     };
   }
 
-  var COUNT = 7;
+  var COUNT = 10;
 
   function init() {
     jellies = [];
@@ -54,8 +54,8 @@
   // ─── 绘制单只水母 ───
   function drawJelly(j) {
     var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    var mult = isDark ? 1.2 : 0.5;
-    var a = Math.min(j.alpha * mult, 0.35);
+    var mult = isDark ? 1.5 : 0.8;
+    var a = Math.min(j.alpha * mult, 0.55);
 
     var s = j.size;
     var sway = Math.sin(time * j.freq + j.phase) * j.amp;
@@ -70,12 +70,12 @@
     var baseColor = j.hue === 0 ? '255,255,255' : '180,210,255';
 
     // ── 辉光 ──
-    var grad = ctx.createRadialGradient(px, py - bellH * 0.3, 0, px, py - bellH * 0.3, s * 1.6);
+    var grad = ctx.createRadialGradient(px, py - bellH * 0.3, 0, px, py - bellH * 0.3, s * 2.0);
     grad.addColorStop(0, 'rgba(' + baseColor + ',' + (a * 0.3) + ')');
     grad.addColorStop(1, 'rgba(' + baseColor + ',0)');
     ctx.fillStyle = grad;
     ctx.beginPath();
-    ctx.arc(px, py - bellH * 0.3, s * 1.6, 0, Math.PI * 2);
+    ctx.arc(px, py - bellH * 0.3, s * 2.0, 0, Math.PI * 2);
     ctx.fill();
 
     // ── 触须 ──
