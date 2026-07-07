@@ -507,8 +507,8 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
   var ctx = canvas.getContext('2d');
   var W, H;
   var particles = [];
-  var NUM = 180;
-  var mouse = { x: null, y: null, radius: 140 };
+  var NUM = 280;
+  var mouse = { x: null, y: null, radius: 180 };
   var animId;
   var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
@@ -526,9 +526,9 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
         y: Math.random() * H,
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5,
-        r: 0.5 + Math.random() * 2.0,
-        alpha: 0.2 + Math.random() * 0.6,
-        baseAlpha: 0.2 + Math.random() * 0.6,
+        r: 1.0 + Math.random() * 3.0,
+        alpha: 0.3 + Math.random() * 0.7,
+        baseAlpha: 0.3 + Math.random() * 0.7,
         phase: Math.random() * Math.PI * 2,
         pulse: 0.005 + Math.random() * 0.015,
       });
@@ -539,9 +539,9 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
     ctx.clearRect(0, 0, W, H);
     isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
-    var pAlpha = isDark ? 0.8 : 0.5;
-    var lineAlpha = isDark ? 0.15 : 0.08;
-    var glowAlpha = isDark ? 0.5 : 0.25;
+    var pAlpha = isDark ? 1.0 : 0.75;
+    var lineAlpha = isDark ? 0.3 : 0.18;
+    var glowAlpha = isDark ? 0.7 : 0.4;
 
     for (var i = 0; i < particles.length; i++) {
       var p = particles[i];
@@ -581,10 +581,10 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
       ctx.fillStyle = 'rgba(255,255,255,' + a + ')';
       ctx.fill();
 
-      if (p.r > 1.2) {
+      if (p.r > 1.0) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,' + (a * 0.12) + ')';
+        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (a * 0.2) + ')';
         ctx.fill();
       }
     }
@@ -597,8 +597,8 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
         var dy2 = aP.y - bP.y;
         var dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
-        if (dist2 < 120) {
-          var ca = (1 - dist2 / 120) * lineAlpha;
+        if (dist2 < 180) {
+          var ca = (1 - dist2 / 180) * lineAlpha;
           ctx.beginPath();
           ctx.moveTo(aP.x, aP.y);
           ctx.lineTo(bP.x, bP.y);

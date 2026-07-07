@@ -395,10 +395,7 @@ a:hover { color: var(--accent-hover); }
   box-shadow: var(--shadow-hover);
 }
 .phil-icon {
-  font-size: 1.4rem;
-  display: block;
-  margin-bottom: 12px;
-  filter: grayscale(1);
+  display: none;
 }
 .philosophy-card h3 {
   font-size: 1.1rem;
@@ -440,9 +437,7 @@ a:hover { color: var(--accent-hover); }
   border-color: var(--b-900);
 }
 .skill-icon {
-  font-size: 2rem;
-  margin-bottom: 12px;
-  filter: grayscale(1);
+  display: none;
 }
 .skill-name {
   font-size: 1rem;
@@ -784,9 +779,7 @@ a:hover { color: var(--accent-hover); }
   border-color: var(--b-900);
 }
 .work-icon {
-  font-size: 1.8rem;
-  margin-bottom: 12px;
-  filter: grayscale(1);
+  display: none;
 }
 .work-card h3 {
   font-size: 1rem;
@@ -872,8 +865,7 @@ a:hover { color: var(--accent-hover); }
   transform: translateY(-2px);
 }
 .contact-icon {
-  font-size: 1.2rem;
-  filter: grayscale(1);
+  display: none;
 }
 
 /* ============================
