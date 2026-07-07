@@ -498,7 +498,7 @@ function debounce(fn, wait) {
 console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
 
 // ═══════════════════════════════════════════════
-// 20. STARFIELD: deep starry sky background
+// 20. GLITCH CANVAS: Xiaomi MiMo-style background
 // ═══════════════════════════════════════════════
 (function() {
   var canvas = document.getElementById('particleCanvas');
@@ -506,14 +506,12 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
 
   var ctx = canvas.getContext('2d');
   var W, H;
-  var stars = [];
-  var NUM = 350;
-  var shootingStars = [];
-  var mouse = { x: null, y: null };
   var animId;
-  var isDark;
+  var time = 0;
+  var mouseX = -9999, mouseY = -9999;
 
-  var colors = ['255,255,255','255,250,240','240,245,255','255,240,230'];
+  var glitchLines = [];
+  var NUM_LINES = 35;
 
   function resize() {
     var hero = canvas.parentElement;
@@ -521,162 +519,86 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
     H = canvas.height = hero.offsetHeight;
   }
 
-  function createStars(count) {
-    stars = [];
-    isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    for (var i = 0; i < count; i++) {
-      var layer = Math.random();
-      var size;
-      if (layer < 0.5)      size = 0.3 + Math.random() * 0.5;   // tiny
-      else if (layer < 0.8) size = 0.6 + Math.random() * 0.8;   // small
-      else if (layer < 0.95)size = 1.2 + Math.random() * 1.2;   // medium
-      else                  size = 2.0 + Math.random() * 2.5;   // large
-
-      stars.push({
-        x: Math.random() * W,
+  function init() {
+    glitchLines = [];
+    for (var i = 0; i < NUM_LINES; i++) {
+      glitchLines.push({
         y: Math.random() * H,
-        r: size,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        baseAlpha: 0.3 + Math.random() * 0.7,
-        alpha: 0,
-        pulse: 0.003 + Math.random() * 0.025,
+        speed: 0.1 + Math.random() * 0.4,
+        amp: 1 + Math.random() * 4,
+        freq: 0.002 + Math.random() * 0.008,
         phase: Math.random() * Math.PI * 2,
-        driftX: (Math.random() - 0.5) * 0.04,
-        driftY: (Math.random() - 0.5) * 0.04,
-        layer: layer,
+        width: 1 + Math.random() * 4,
+        alpha: 0.03 + Math.random() * 0.06,
       });
     }
   }
 
-  function spawnShootingStar() {
-    var angle = -Math.PI / 3 + (Math.random() - 0.5) * 0.5;
-    var speed = 6 + Math.random() * 5;
-    shootingStars.push({
-      x: Math.random() * W * 0.7 + W * 0.15,
-      y: 0,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed * 0.6,
-      life: 0,
-      maxLife: 40 + Math.random() * 50,
-      tail: [],
-    });
-    if (shootingStars.length > 3) shootingStars.shift();
-  }
-
   function draw(t) {
     ctx.clearRect(0, 0, W, H);
-    isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    time = t * 0.001;
 
-    var mult = isDark ? 1.0 : 0.6;
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var mult = isDark ? 1.0 : 0.5;
 
-    // Draw stars
-    for (var i = 0; i < stars.length; i++) {
-      var s = stars[i];
+    // Draw horizontal drift lines (the core "glitch" feel)
+    for (var i = 0; i < glitchLines.length; i++) {
+      var g = glitchLines[i];
+      g.y += g.speed * 0.3;
+      if (g.y > H + 20) g.y = -20;
 
-      s.x += s.driftX;
-      s.y += s.driftY;
-      if (s.x < -10) s.x = W + 10;
-      if (s.x > W + 10) s.x = -10;
-      if (s.y < -10) s.y = H + 10;
-      if (s.y > H + 10) s.y = -10;
+      var wave = Math.sin(time * 0.5 + g.y * g.freq + g.phase) * g.amp;
+      var alpha = g.alpha * mult * (0.5 + 0.5 * Math.sin(time * 0.3 + i));
 
-      // Twinkle
-      s.alpha = s.baseAlpha * (0.6 + 0.4 * Math.sin(t * s.pulse + s.phase));
-
-      // Mouse glow
-      var glow = 0;
-      if (mouse.x !== null) {
-        var dx = s.x - mouse.x;
-        var dy = s.y - mouse.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 100) {
-          glow = (1 - dist / 100) * 0.6;
-          // Repel tiny bit
-          s.x += (dx / Math.max(dist,1)) * 0.15;
-          s.y += (dy / Math.max(dist,1)) * 0.15;
-        }
-      }
-
-      var a = Math.min(s.alpha * mult + glow, 1);
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + s.color + ',' + a + ')';
-      ctx.fill();
-
-      // Glow for medium+ stars
-      if (s.r > 1.2) {
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + s.color + ',' + (a * 0.15) + ')';
-        ctx.fill();
+      ctx.moveTo(0, g.y);
+      for (var x = 0; x < W; x += 2) {
+        var wy = g.y + Math.sin(x * 0.01 + time + g.phase) * g.amp * 0.3 + wave * 0.2;
+        ctx.lineTo(x, wy);
       }
-      // Extra glow for large stars
-      if (s.r > 2.5) {
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r * 6, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + s.color + ',' + (a * 0.06) + ')';
-        ctx.fill();
-      }
+      ctx.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
+      ctx.lineWidth = g.width;
+      ctx.stroke();
     }
 
-    // Shooting stars
-    for (var si = shootingStars.length - 1; si >= 0; si--) {
-      var ss = shootingStars[si];
-      ss.life++;
-      if (ss.life > ss.maxLife) {
-        shootingStars.splice(si, 1);
-        continue;
-      }
-      var pct = ss.life / ss.maxLife;
-      var bright = Math.sin(pct * Math.PI) * mult;
+    // Vertical scan line (subtle)
+    var scanY = (time * 60) % H;
+    ctx.beginPath();
+    ctx.moveTo(0, scanY);
+    ctx.lineTo(W, scanY);
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.04 * mult) + ')';
+    ctx.lineWidth = 1;
+    ctx.stroke();
 
-      // Tail
-      for (var ti = 0; ti < ss.tail.length; ti++) {
-        var tp = ti / ss.tail.length;
-        ctx.beginPath();
-        ctx.arc(ss.tail[ti].x, ss.tail[ti].y, 1.2 * (1 - tp), 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,' + (bright * (1 - tp) * 0.4) + ')';
-        ctx.fill();
-      }
-
-      // Head
-      ctx.beginPath();
-      ctx.arc(ss.x, ss.y, 2.0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,' + bright + ')';
-      ctx.shadowBlur = 25;
-      ctx.shadowColor = 'rgba(255,255,255,0.3)';
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      // Store tail
-      ss.tail.unshift({ x: ss.x, y: ss.y });
-      if (ss.tail.length > 25) ss.tail.pop();
-
-      ss.x += ss.vx;
-      ss.y += ss.vy;
-      ss.vx *= 0.995;
-      ss.vy *= 0.995;
+    // Occasional horizontal glitch block
+    if (Math.random() < 0.003 * mult) {
+      var gy = Math.random() * H;
+      var gh = 1 + Math.random() * 8;
+      var gw = W * (0.1 + Math.random() * 0.6);
+      var gx = Math.random() * (W - gw);
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.02 * mult) + ')';
+      ctx.fillRect(gx, gy, gw, gh);
     }
 
-    // Connection lines (only nearest bright stars, subtle)
-    ctx.lineWidth = 0.3;
-    for (var j = 0; j < stars.length; j += 2) {
-      var a2 = stars[j];
-      if (a2.r < 1.0) continue;
-      for (var k = j + 2; k < stars.length; k += 2) {
-        var b2 = stars[k];
-        if (b2.r < 1.0) continue;
-        var dx2 = a2.x - b2.x;
-        var dy2 = a2.y - b2.y;
-        var d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-        if (d2 < 80) {
-          var ca = (1 - d2 / 80) * (mult * 0.08);
-          ctx.beginPath();
-          ctx.moveTo(a2.x, a2.y);
-          ctx.lineTo(b2.x, b2.y);
-          ctx.strokeStyle = 'rgba(200,210,255,' + ca + ')';
-          ctx.stroke();
-        }
+    // Mouse interaction: distortion ripple
+    if (mouseX > 0 && mouseY > 0) {
+      var radius = 80;
+      for (var mi = 0; mi < 3; mi++) {
+        var angle = time * 2 + mi * Math.PI * 0.67;
+        var dist = 30 + 20 * Math.sin(time * 3 + mi);
+        var cx = mouseX + Math.cos(angle) * dist;
+        var cy = mouseY + Math.sin(angle) * dist;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (0.2 * mult) + ')';
+        ctx.fill();
+
+        // Faint ring
+        ctx.beginPath();
+        ctx.arc(cx, cy, 20 + 10 * Math.sin(time + mi), 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,' + (0.04 * mult) + ')';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
       }
     }
 
@@ -684,22 +606,16 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
   }
 
   resize();
-  createStars(NUM);
-
-  // Shooting star every 2-5 seconds
-  setInterval(spawnShootingStar, 2000 + Math.random() * 3000);
+  init();
 
   document.addEventListener('mousemove', function(e) {
     var rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
   });
-  document.addEventListener('mouseleave', function() { mouse.x = null; mouse.y = null; });
+  document.addEventListener('mouseleave', function() { mouseX = -9999; mouseY = -9999; });
 
-  window.addEventListener('resize', function() { resize(); createStars(NUM); });
-
-  var themeObs = new MutationObserver(function() { isDark = document.documentElement.getAttribute('data-theme') === 'dark'; });
-  themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  window.addEventListener('resize', function() { resize(); init(); });
 
   draw(0);
 

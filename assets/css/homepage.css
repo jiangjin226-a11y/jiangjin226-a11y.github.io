@@ -136,7 +136,7 @@ a:hover { color: var(--accent-hover); }
   position: relative;
   overflow: hidden;
   padding: 80px 24px 60px;
-  background: var(--b-950);
+  background: #0d0d0d;
 }
 
 .hero-canvas {
@@ -991,7 +991,7 @@ a:hover { color: var(--accent-hover); }
 [data-theme="dark"] .nav { background: rgba(10,10,10,0.9); border-color: var(--b-100); }
 [data-theme="dark"] .nav-links.open { background: rgba(10,10,10,0.98); }
 [data-theme="dark"] .section-alt { background: var(--b-50); }
-[data-theme="dark"] .hero { background: var(--b-950); }
+[data-theme="dark"] .hero { background: #0d0d0d; }
 [data-theme="dark"] .skill-card, [data-theme="dark"] .work-card, [data-theme="dark"] .eval-card,
 [data-theme="dark"] .edu-card, [data-theme="dark"] .philosophy-card, [data-theme="dark"] .contact-card { background: var(--b-50); }
 [data-theme="dark"] .skill-back { background: var(--b-50); }
