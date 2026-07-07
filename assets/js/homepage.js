@@ -498,7 +498,7 @@ function debounce(fn, wait) {
 console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
 
 // ═══════════════════════════════════════════════
-// 20. PARTICLE SYSTEM: dynamic dark-tech background
+// 20. STARFIELD: deep starry sky background
 // ═══════════════════════════════════════════════
 (function() {
   var canvas = document.getElementById('particleCanvas');
@@ -506,11 +506,14 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
 
   var ctx = canvas.getContext('2d');
   var W, H;
-  var particles = [];
-  var NUM = 280;
-  var mouse = { x: null, y: null, radius: 180 };
+  var stars = [];
+  var NUM = 350;
+  var shootingStars = [];
+  var mouse = { x: null, y: null };
   var animId;
-  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  var isDark;
+
+  var colors = ['255,255,255','255,250,240','240,245,255','255,240,230'];
 
   function resize() {
     var hero = canvas.parentElement;
@@ -518,92 +521,160 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
     H = canvas.height = hero.offsetHeight;
   }
 
-  function createParticles(count) {
-    particles = [];
+  function createStars(count) {
+    stars = [];
+    isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     for (var i = 0; i < count; i++) {
-      particles.push({
+      var layer = Math.random();
+      var size;
+      if (layer < 0.5)      size = 0.3 + Math.random() * 0.5;   // tiny
+      else if (layer < 0.8) size = 0.6 + Math.random() * 0.8;   // small
+      else if (layer < 0.95)size = 1.2 + Math.random() * 1.2;   // medium
+      else                  size = 2.0 + Math.random() * 2.5;   // large
+
+      stars.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        r: 1.0 + Math.random() * 3.0,
-        alpha: 0.3 + Math.random() * 0.7,
+        r: size,
+        color: colors[Math.floor(Math.random() * colors.length)],
         baseAlpha: 0.3 + Math.random() * 0.7,
+        alpha: 0,
+        pulse: 0.003 + Math.random() * 0.025,
         phase: Math.random() * Math.PI * 2,
-        pulse: 0.005 + Math.random() * 0.015,
+        driftX: (Math.random() - 0.5) * 0.04,
+        driftY: (Math.random() - 0.5) * 0.04,
+        layer: layer,
       });
     }
+  }
+
+  function spawnShootingStar() {
+    var angle = -Math.PI / 3 + (Math.random() - 0.5) * 0.5;
+    var speed = 6 + Math.random() * 5;
+    shootingStars.push({
+      x: Math.random() * W * 0.7 + W * 0.15,
+      y: 0,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed * 0.6,
+      life: 0,
+      maxLife: 40 + Math.random() * 50,
+      tail: [],
+    });
+    if (shootingStars.length > 3) shootingStars.shift();
   }
 
   function draw(t) {
     ctx.clearRect(0, 0, W, H);
     isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
-    var pAlpha = isDark ? 1.0 : 0.75;
-    var lineAlpha = isDark ? 0.3 : 0.18;
-    var glowAlpha = isDark ? 0.7 : 0.4;
+    var mult = isDark ? 1.0 : 0.6;
 
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
+    // Draw stars
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
 
-      p.x += p.vx;
-      p.y += p.vy;
+      s.x += s.driftX;
+      s.y += s.driftY;
+      if (s.x < -10) s.x = W + 10;
+      if (s.x > W + 10) s.x = -10;
+      if (s.y < -10) s.y = H + 10;
+      if (s.y > H + 10) s.y = -10;
 
-      if (p.x < -20) p.x = W + 20;
-      if (p.x > W + 20) p.x = -20;
-      if (p.y < -20) p.y = H + 20;
-      if (p.y > H + 20) p.y = -20;
+      // Twinkle
+      s.alpha = s.baseAlpha * (0.6 + 0.4 * Math.sin(t * s.pulse + s.phase));
 
+      // Mouse glow
+      var glow = 0;
       if (mouse.x !== null) {
-        var dx = mouse.x - p.x;
-        var dy = mouse.y - p.y;
+        var dx = s.x - mouse.x;
+        var dy = s.y - mouse.y;
         var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < mouse.radius && dist > 1) {
-          var force = (mouse.radius - dist) / mouse.radius;
-          p.vx += (dx / dist) * force * 0.06;
-          p.vy += (dy / dist) * force * 0.06;
-          var spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-          if (spd > 1.5) {
-            p.vx = (p.vx / spd) * 1.5;
-            p.vy = (p.vy / spd) * 1.5;
-          }
+        if (dist < 100) {
+          glow = (1 - dist / 100) * 0.6;
+          // Repel tiny bit
+          s.x += (dx / Math.max(dist,1)) * 0.15;
+          s.y += (dy / Math.max(dist,1)) * 0.15;
         }
       }
 
-      p.vx *= 0.995;
-      p.vy *= 0.995;
-
-      p.alpha = p.baseAlpha * (0.7 + 0.3 * Math.sin(t * p.pulse + p.phase));
-
-      var a = p.alpha * pAlpha;
+      var a = Math.min(s.alpha * mult + glow, 1);
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,' + a + ')';
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + s.color + ',' + a + ')';
       ctx.fill();
 
-      if (p.r > 1.0) {
+      // Glow for medium+ stars
+      if (s.r > 1.2) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,' + (a * 0.2) + ')';
+        ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + s.color + ',' + (a * 0.15) + ')';
+        ctx.fill();
+      }
+      // Extra glow for large stars
+      if (s.r > 2.5) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 6, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + s.color + ',' + (a * 0.06) + ')';
         ctx.fill();
       }
     }
 
-    for (var j = 0; j < particles.length; j++) {
-      for (var k = j + 1; k < particles.length; k++) {
-        var aP = particles[j];
-        var bP = particles[k];
-        var dx2 = aP.x - bP.x;
-        var dy2 = aP.y - bP.y;
-        var dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+    // Shooting stars
+    for (var si = shootingStars.length - 1; si >= 0; si--) {
+      var ss = shootingStars[si];
+      ss.life++;
+      if (ss.life > ss.maxLife) {
+        shootingStars.splice(si, 1);
+        continue;
+      }
+      var pct = ss.life / ss.maxLife;
+      var bright = Math.sin(pct * Math.PI) * mult;
 
-        if (dist2 < 180) {
-          var ca = (1 - dist2 / 180) * lineAlpha;
+      // Tail
+      for (var ti = 0; ti < ss.tail.length; ti++) {
+        var tp = ti / ss.tail.length;
+        ctx.beginPath();
+        ctx.arc(ss.tail[ti].x, ss.tail[ti].y, 1.2 * (1 - tp), 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (bright * (1 - tp) * 0.4) + ')';
+        ctx.fill();
+      }
+
+      // Head
+      ctx.beginPath();
+      ctx.arc(ss.x, ss.y, 2.0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + bright + ')';
+      ctx.shadowBlur = 25;
+      ctx.shadowColor = 'rgba(255,255,255,0.3)';
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Store tail
+      ss.tail.unshift({ x: ss.x, y: ss.y });
+      if (ss.tail.length > 25) ss.tail.pop();
+
+      ss.x += ss.vx;
+      ss.y += ss.vy;
+      ss.vx *= 0.995;
+      ss.vy *= 0.995;
+    }
+
+    // Connection lines (only nearest bright stars, subtle)
+    ctx.lineWidth = 0.3;
+    for (var j = 0; j < stars.length; j += 2) {
+      var a2 = stars[j];
+      if (a2.r < 1.0) continue;
+      for (var k = j + 2; k < stars.length; k += 2) {
+        var b2 = stars[k];
+        if (b2.r < 1.0) continue;
+        var dx2 = a2.x - b2.x;
+        var dy2 = a2.y - b2.y;
+        var d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        if (d2 < 80) {
+          var ca = (1 - d2 / 80) * (mult * 0.08);
           ctx.beginPath();
-          ctx.moveTo(aP.x, aP.y);
-          ctx.lineTo(bP.x, bP.y);
-          ctx.strokeStyle = 'rgba(255,255,255,' + ca + ')';
-          ctx.lineWidth = 0.5;
+          ctx.moveTo(a2.x, a2.y);
+          ctx.lineTo(b2.x, b2.y);
+          ctx.strokeStyle = 'rgba(200,210,255,' + ca + ')';
           ctx.stroke();
         }
       }
@@ -613,36 +684,27 @@ console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
   }
 
   resize();
-  createParticles(NUM);
+  createStars(NUM);
+
+  // Shooting star every 2-5 seconds
+  setInterval(spawnShootingStar, 2000 + Math.random() * 3000);
 
   document.addEventListener('mousemove', function(e) {
     var rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
   });
-  document.addEventListener('mouseleave', function() {
-    mouse.x = null;
-    mouse.y = null;
-  });
+  document.addEventListener('mouseleave', function() { mouse.x = null; mouse.y = null; });
 
-  window.addEventListener('resize', function() {
-    resize();
-    createParticles(NUM);
-  });
+  window.addEventListener('resize', function() { resize(); createStars(NUM); });
 
-  var themeObs = new MutationObserver(function() {
-    isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  });
+  var themeObs = new MutationObserver(function() { isDark = document.documentElement.getAttribute('data-theme') === 'dark'; });
   themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   draw(0);
 
   document.addEventListener('visibilitychange', function() {
-    if (document.hidden && animId) {
-      cancelAnimationFrame(animId);
-      animId = null;
-    } else if (!document.hidden && !animId) {
-      draw(performance.now());
-    }
+    if (document.hidden && animId) { cancelAnimationFrame(animId); animId = null; }
+    else if (!document.hidden && !animId) { draw(performance.now()); }
   });
 })();
