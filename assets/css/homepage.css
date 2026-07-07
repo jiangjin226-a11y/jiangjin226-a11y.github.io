@@ -941,3 +941,315 @@ a:hover { color: var(--terracotta-dark); }
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ============================
+   SCROLL PROGRESS BAR
+   ============================ */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--terracotta), var(--sage));
+  z-index: 1001;
+  width: 0;
+  transition: width 0.1s linear;
+}
+
+/* ============================
+   THEME TOGGLE
+   ============================ */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  z-index: 1001;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--sand-200);
+  background: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+.theme-toggle:hover {
+  transform: scale(1.1);
+  border-color: var(--terracotta);
+}
+
+/* ============================
+   FLOATING SHAPES
+   ============================ */
+.floating-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.shape {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.12;
+  color: var(--terracotta);
+  animation: floatShape 8s ease-in-out infinite;
+}
+.shape-1 { top: 12%; left: 10%; animation-delay: 0s; font-size: 2rem; }
+.shape-2 { top: 25%; right: 14%; animation-delay: 1.5s; color: var(--sage); }
+.shape-3 { bottom: 20%; left: 18%; animation-delay: 3s; font-size: 1.8rem; }
+.shape-4 { bottom: 35%; right: 10%; animation-delay: 4.5s; color: var(--sage); }
+
+@keyframes floatShape {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-18px) rotate(8deg); }
+  50% { transform: translateY(-6px) rotate(-4deg); }
+  75% { transform: translateY(-14px) rotate(6deg); }
+}
+
+/* ============================
+   HERO SUBTITLE TYPING
+   ============================ */
+.hero-sub {
+  min-height: 1.6em;
+  display: inline-block;
+}
+.hero-sub::after {
+  content: '|';
+  animation: cursorBlink 0.9s step-end infinite;
+  color: var(--terracotta);
+  font-weight: 300;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ============================
+   TAG HOVER BOUNCE
+   ============================ */
+.tag-hover {
+  cursor: default;
+}
+.tag-hover:hover {
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 6px 20px rgba(224,122,95,0.15);
+}
+
+/* ============================
+   BUTTON GLOW
+   ============================ */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.btn-glow:hover::after {
+  opacity: 1;
+}
+
+/* ============================
+   SKILL CARD FLIP (CLICK TO EXPAND)
+   ============================ */
+.skill-card {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+  perspective: 600px;
+}
+.skill-front {
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.skill-back {
+  position: absolute;
+  inset: 0;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  background: var(--sand-50);
+  border-radius: var(--radius);
+}
+.skill-detail {
+  font-size: 0.85rem;
+  color: var(--sand-600);
+  line-height: 1.7;
+  text-align: center;
+  max-width: 280px;
+}
+.skill-back-hint {
+  font-size: 0.7rem;
+  color: var(--sand-400);
+  margin-top: 16px;
+  font-weight: 500;
+}
+
+.skill-card.expanded .skill-front {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.97);
+  pointer-events: none;
+}
+.skill-card.expanded .skill-back {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.skill-card.expanded {
+  border-color: var(--card-accent);
+  box-shadow: 0 0 0 2px var(--card-accent), var(--shadow-hover);
+}
+
+/* ============================
+   COURSE BADGE ACTIVE STATE
+   ============================ */
+.course-badge {
+  cursor: pointer;
+  position: relative;
+}
+.course-badge.active {
+  border-color: var(--c-color);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+.course-badge-desc {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--slate);
+  color: white;
+  font-size: 0.72rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  max-width: 240px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.4;
+}
+.course-badge-desc::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--slate);
+}
+.course-badge.active .course-badge-desc {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================
+   ACTIVE NAV LINK
+   ============================ */
+.nav-link.active {
+  color: var(--terracotta);
+  background: rgba(224,122,95,0.12);
+}
+
+/* ============================
+   3D TILT ON PHILOSOPHY CARDS
+   ============================ */
+.philosophy-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ============================
+   TIMELINE PROGRESS LINE
+   ============================ */
+.timeline-line-progress {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 2px;
+  border-radius: 1px;
+  background: linear-gradient(180deg, var(--terracotta), var(--sage));
+  z-index: 0;
+  height: 0;
+  transition: height 0.3s ease;
+}
+
+/* ============================
+   STAT ITEM MICRO BOUNCE
+   ============================ */
+.stat-item {
+  transform: translateY(0);
+}
+.stat-item:hover {
+  transform: translateY(-4px);
+}
+
+/* ============================
+   TOOL TAG POP
+   ============================ */
+.tool-tag {
+  cursor: default;
+  transition: var(--transition);
+}
+.tool-tag:active {
+  transform: scale(0.92);
+}
+
+/* ============================
+   DARK THEME
+   ============================ */
+[data-theme="dark"] {
+  --sand-50: #1a1a1e;
+  --sand-100: #25252b;
+  --sand-200: #2e2e36;
+  --sand-300: #3a3a44;
+  --sand-400: #6a6a7a;
+  --sand-500: #8a8a9a;
+  --sand-600: #aaaabc;
+  --sand-700: #c8c8d4;
+  --sand-800: #e0e0e8;
+  --sand-900: #f0f0f5;
+  --white: #141418;
+  --shadow: 0 4px 24px rgba(0,0,0,0.2);
+  --shadow-hover: 0 8px 40px rgba(0,0,0,0.35);
+}
+[data-theme="dark"] .nav { background: rgba(26,26,30,0.9); border-color: var(--sand-200); }
+[data-theme="dark"] .nav-links.open { background: rgba(26,26,30,0.98); }
+[data-theme="dark"] .section-alt { background: var(--white); }
+[data-theme="dark"] .skill-card, [data-theme="dark"] .work-card, [data-theme="dark"] .eval-card,
+[data-theme="dark"] .edu-card, [data-theme="dark"] .philosophy-card, [data-theme="dark"] .contact-card { background: var(--white); }
+[data-theme="dark"] .skill-back { background: var(--white); }
+[data-theme="dark"] .tag { background: var(--white); }
+[data-theme="dark"] .course-badge { border-color: transparent; }
+[data-theme="dark"] .stat-item { background: var(--white); }
+[data-theme="dark"] .tool-tag { background: var(--white); }
+[data-theme="dark"] .tl-tag { background: var(--sand-100); }
+[data-theme="dark"] .theme-toggle { background: var(--white); border-color: var(--sand-200); }
+
+/* ============================
+   RESPONSIVE ADDITIONS
+   ============================ */
+@media (max-width: 768px) {
+  .theme-toggle { top: 12px; right: 72px; width: 36px; height: 36px; font-size: 1rem; }
+  .shape { display: none; }
+  .skill-card { min-height: 260px; }
+}

@@ -12,6 +12,14 @@
 </head>
 <body>
 
+<!-- ====== SCROLL PROGRESS BAR ====== -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ====== THEME TOGGLE ====== -->
+<button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+  <span class="theme-icon">☾</span>
+</button>
+
 <!-- ====== NAV ====== -->
 <nav class="nav" id="navbar">
   <div class="nav-inner">
@@ -32,23 +40,29 @@
 
 <!-- ====== HERO ====== -->
 <header class="hero" id="about">
-  <div class="hero-bg"></div>
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="floating-shapes" id="floatingShapes">
+    <div class="shape shape-1">✦</div>
+    <div class="shape shape-2">◆</div>
+    <div class="shape shape-3">●</div>
+    <div class="shape shape-4">▲</div>
+  </div>
   <div class="hero-content">
-    <div class="hero-avatar-wrap">
+    <div class="hero-avatar-wrap" id="heroAvatar">
       <img src="images/avatar.jpg" alt="蒋红梅" class="hero-avatar" loading="eager">
     </div>
-    <h1 class="hero-name">蒋红梅</h1>
+    <h1 class="hero-name" id="heroName">蒋红梅</h1>
     <p class="hero-role">艺术与科技 · 本科在读</p>
-    <p class="hero-sub">长沙师范学院 美术与设计学院</p>
+    <p class="hero-sub" id="heroSub"></p>
     <div class="hero-tags">
-      <span class="tag">平面设计</span>
-      <span class="tag">影视后期</span>
-      <span class="tag">AIGC创意</span>
-      <span class="tag">建模渲染</span>
-      <span class="tag">用户体验</span>
+      <span class="tag tag-hover">平面设计</span>
+      <span class="tag tag-hover">影视后期</span>
+      <span class="tag tag-hover">AIGC创意</span>
+      <span class="tag tag-hover">建模渲染</span>
+      <span class="tag tag-hover">用户体验</span>
     </div>
     <div class="hero-cta">
-      <a href="#skills" class="btn btn-primary">了解我</a>
+      <a href="#skills" class="btn btn-primary btn-glow">了解我</a>
       <a href="#contact" class="btn btn-outline">联系我</a>
     </div>
   </div>
@@ -103,53 +117,77 @@
   <div class="container">
     <h2 class="section-title"><span class="section-num">02</span> 专业技能</h2>
     <div class="skills-grid">
-      <div class="skill-card" style="--card-accent: #e07a5f">
-        <div class="skill-icon">🎨</div>
-        <h3 class="skill-name">平面视觉设计</h3>
-        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
-        <ul class="skill-list">
-          <li>图片精修</li>
-          <li>海报设计</li>
-          <li>物料设计</li>
-          <li>版式优化</li>
-          <li>图文排版</li>
-        </ul>
+      <div class="skill-card" style="--card-accent: #e07a5f" data-detail="熟练使用 Photoshop / Illustrator / InDesign 完成图片精修、海报与展板设计、品牌物料制作，具备扎实的版式与色彩功底。曾为科普馆设计30+张展陈内容版式。">
+        <div class="skill-front">
+          <div class="skill-icon">🎨</div>
+          <h3 class="skill-name">平面视觉设计</h3>
+          <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+          <ul class="skill-list">
+            <li>图片精修</li>
+            <li>海报设计</li>
+            <li>物料设计</li>
+            <li>版式优化</li>
+            <li>图文排版</li>
+          </ul>
+        </div>
+        <div class="skill-back">
+          <p class="skill-detail"></p>
+          <span class="skill-back-hint">点击收起 ↑</span>
+        </div>
       </div>
-      <div class="skill-card" style="--card-accent: #81b29a">
-        <div class="skill-icon">🎬</div>
-        <h3 class="skill-name">影视后期</h3>
-        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
-        <ul class="skill-list">
-          <li>短视频剪辑</li>
-          <li>宣传短片</li>
-          <li>全流程制作</li>
-          <li>调色音效</li>
-          <li>特效字幕</li>
-        </ul>
+      <div class="skill-card" style="--card-accent: #81b29a" data-detail="擅长使用 Premiere / After Effects 完成短视频剪辑、宣传短片全流程制作，熟练掌握粗剪→精剪→调色→音效→字幕特效全链路，具备独立输出成片的能力。">
+        <div class="skill-front">
+          <div class="skill-icon">🎬</div>
+          <h3 class="skill-name">影视后期</h3>
+          <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+          <ul class="skill-list">
+            <li>短视频剪辑</li>
+            <li>宣传短片</li>
+            <li>全流程制作</li>
+            <li>调色音效</li>
+            <li>特效字幕</li>
+          </ul>
+        </div>
+        <div class="skill-back">
+          <p class="skill-detail"></p>
+          <span class="skill-back-hint">点击收起 ↑</span>
+        </div>
       </div>
-      <div class="skill-card" style="--card-accent: #3d405b">
-        <div class="skill-icon">🧊</div>
-        <h3 class="skill-name">建模与渲染</h3>
-        <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
-        <ul class="skill-list">
-          <li>艺术装置</li>
-          <li>文创IP设计</li>
-          <li>展厅可视化</li>
-          <li>产品效果图</li>
-          <li>三维建模</li>
-        </ul>
+      <div class="skill-card" style="--card-accent: #3d405b" data-detail="熟练运用 Blender 进行多边形建模、材质贴图、UV展开与灯光渲染。可完成艺术装置模型、文创IP设计、展厅可视化及产品效果图等三维设计需求。">
+        <div class="skill-front">
+          <div class="skill-icon">🧊</div>
+          <h3 class="skill-name">建模与渲染</h3>
+          <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+          <ul class="skill-list">
+            <li>艺术装置</li>
+            <li>文创IP设计</li>
+            <li>展厅可视化</li>
+            <li>产品效果图</li>
+            <li>三维建模</li>
+          </ul>
+        </div>
+        <div class="skill-back">
+          <p class="skill-detail"></p>
+          <span class="skill-back-hint">点击收起 ↑</span>
+        </div>
       </div>
-      <div class="skill-card" style="--card-accent: #e09f5e">
-        <div class="skill-icon">🤖</div>
-        <h3 class="skill-name">AIGC创意设计</h3>
-        <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
-        <ul class="skill-list">
-          <li>AI场景生成</li>
-          <li>创意素材</li>
-          <li>视觉方案</li>
-          <li>数字交互</li>
-          <li>AIGC赋能</li>
-        </ul>
+      <div class="skill-card" style="--card-accent: #e09f5e" data-detail="熟练使用 Midjourney / Stable Diffusion 进行AI场景生成与创意素材创作，能够将AIGC技术与传统视觉设计融合，产出高质量的数字交互视觉方案。">
+        <div class="skill-front">
+          <div class="skill-icon">🤖</div>
+          <h3 class="skill-name">AIGC创意设计</h3>
+          <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+          <ul class="skill-list">
+            <li>AI场景生成</li>
+            <li>创意素材</li>
+            <li>视觉方案</li>
+            <li>数字交互</li>
+            <li>AIGC赋能</li>
+          </ul>
+        </div>
+        <div class="skill-back">
+          <p class="skill-detail"></p>
+          <span class="skill-back-hint">点击收起 ↑</span>
+        </div>
       </div>
     </div>
 
@@ -227,16 +265,16 @@
       <div class="edu-courses">
         <h4>主修课程成绩</h4>
         <div class="course-grid">
-          <span class="course-badge" style="--c-bg: rgba(224,122,95,0.12); --c-color: #e07a5f">形态构成 <strong>96</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(129,178,154,0.12); --c-color: #81b29a">用户体验设计 <strong>93</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(61,64,91,0.12); --c-color: #3d405b">跨媒介技术 <strong>92</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(224,159,94,0.12); --c-color: #e09f5e">信息可视化 <strong>92</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(130,130,200,0.12); --c-color: #5a5a8a">计算机辅助设计 <strong>91</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(180,140,200,0.12); --c-color: #8b5e8b">创意编程 <strong>91</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(200,150,120,0.12); --c-color: #a0765a">信息架构设计 <strong>91</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(100,150,180,0.12); --c-color: #4a7c9e">设计心理学 <strong>90</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(180,120,120,0.12); --c-color: #8c5c5c">影视剪辑与特效 <strong>90</strong></span>
-          <span class="course-badge" style="--c-bg: rgba(120,160,140,0.12); --c-color: #5a7a6a">设计管理 <strong>90</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(224,122,95,0.12); --c-color: #e07a5f" data-desc="三大构成（平面/色彩/立体）的形态设计原理与实践">形态构成 <strong>96</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(129,178,154,0.12); --c-color: #81b29a" data-desc="用户研究、交互设计、可用性测试全流程">用户体验设计 <strong>93</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(61,64,91,0.12); --c-color: #3d405b" data-desc="跨媒介艺术创作与技术实现方法">跨媒介技术 <strong>92</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(224,159,94,0.12); --c-color: #e09f5e" data-desc="数据可视化图表设计与信息图形表达">信息可视化 <strong>92</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(130,130,200,0.12); --c-color: #5a5a8a" data-desc="CAD软件辅助设计与制图">计算机辅助设计 <strong>91</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(180,140,200,0.12); --c-color: #8b5e8b" data-desc="Processing/p5.js创意编程与交互设计">创意编程 <strong>91</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(200,150,120,0.12); --c-color: #a0765a" data-desc="信息组织、导航系统与用户认知模型">信息架构设计 <strong>91</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(100,150,180,0.12); --c-color: #4a7c9e" data-desc="设计认知、用户行为与交互心理学">设计心理学 <strong>90</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(180,120,120,0.12); --c-color: #8c5c5c" data-desc="Premiere剪辑、调色、特效与后期全流程">影视剪辑与特效 <strong>90</strong></span>
+          <span class="course-badge" style="--c-bg: rgba(120,160,140,0.12); --c-color: #5a7a6a" data-desc="设计项目管理、团队协作与流程控制">设计管理 <strong>90</strong></span>
         </div>
       </div>
     </div>
