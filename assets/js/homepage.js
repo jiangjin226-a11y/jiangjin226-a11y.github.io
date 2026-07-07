@@ -496,3 +496,227 @@ function debounce(fn, wait) {
 })();
 
 console.log('✦ 蒋红梅 · 个人主页已加载 | 动态交互就绪');
+
+// ═══════════════════════════════════════════════
+// 20. STARFIELD: dynamic starry sky background
+// ═══════════════════════════════════════════════
+(function() {
+  var canvas = document.getElementById('starfield');
+  if (!canvas) return;
+
+  var ctx = canvas.getContext('2d');
+  var W, H;
+  var stars = [];
+  var NUM_STARS = 180;
+  var mouseX = -9999, mouseY = -9999;
+  var animId;
+
+  // Shooting star
+  var shooting = { active: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, maxLife: 0 };
+
+  function resize() {
+    W = canvas.width = canvas.parentElement.offsetWidth;
+    H = canvas.height = canvas.parentElement.offsetHeight;
+  }
+
+  function createStars(count) {
+    stars = [];
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var baseAlpha = isDark ? 0.7 : 0.35;
+    for (var i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 0.3 + Math.random() * 1.8,
+        baseAlpha: baseAlpha * (0.3 + Math.random() * 0.7),
+        alpha: 0,
+        speed: 0.003 + Math.random() * 0.015,
+        phase: Math.random() * Math.PI * 2,
+        driftX: (Math.random() - 0.5) * 0.08,
+        driftY: (Math.random() - 0.5) * 0.08,
+        color: getStarColor(),
+      });
+    }
+  }
+
+  function getStarColor() {
+    var t = Math.random();
+    // Mostly white with some warm/cool variation
+    if (t < 0.6) return '255,255,255';     // pure white
+    if (t < 0.8) return '255,230,210';     // warm
+    if (t < 0.93) return '210,230,255';    // cool blue
+    return '255,200,150';                  // golden
+  }
+
+  function spawnShootingStar() {
+    if (shooting.active) return;
+    var angle = -Math.PI / 4 + (Math.random() - 0.5) * 0.6; // ~ -45deg
+    var speed = 4 + Math.random() * 3;
+    shooting.active = true;
+    shooting.x = Math.random() * W * 0.8 + W * 0.1;
+    shooting.y = 0;
+    shooting.vx = Math.cos(angle) * speed;
+    shooting.vy = Math.sin(angle) * speed;
+    shooting.maxLife = 60 + Math.random() * 40;
+    shooting.life = 0;
+  }
+
+  function getThemeStarAlpha() {
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return isDark ? 0.7 : 0.35;
+  }
+
+  function draw(timestamp) {
+    ctx.clearRect(0, 0, W, H);
+
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var targetBase = isDark ? 0.7 : 0.35;
+
+    // Update & draw stars
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+
+      // Twinkle
+      s.alpha = s.baseAlpha * (0.5 + 0.5 * Math.sin(timestamp * s.speed + s.phase));
+      // Slowly adjust baseAlpha to theme changes
+      s.baseAlpha += (targetBase * (0.3 + Math.random() * 0.7 * 0) - s.baseAlpha) * 0.001;
+
+      // Drift
+      s.x += s.driftX;
+      s.y += s.driftY;
+      if (s.x < -10) s.x = W + 10;
+      if (s.x > W + 10) s.x = -10;
+      if (s.y < -10) s.y = H + 10;
+      if (s.y > H + 10) s.y = -10;
+
+      // Mouse interaction: subtle repulsion
+      var dx = s.x - mouseX;
+      var dy = s.y - mouseY;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120 && dist > 0) {
+        var force = (120 - dist) / 120 * 0.3;
+        s.x += (dx / dist) * force;
+        s.y += (dy / dist) * force;
+        // Brighten near mouse
+        var glow = (120 - dist) / 120 * 0.5;
+        ctx.globalAlpha = Math.min(s.alpha + glow, 1);
+      } else {
+        ctx.globalAlpha = s.alpha;
+      }
+
+      // Draw star
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + s.color + ',' + ctx.globalAlpha + ')';
+
+      // Glow for larger stars
+      if (s.r > 1.2) {
+        ctx.shadowBlur = s.r * 3;
+        ctx.shadowColor = 'rgba(' + s.color + ',0.3)';
+      }
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    // Draw star connections (subtle, only nearby pairs)
+    ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(200,180,160,0.02)';
+    ctx.lineWidth = 0.5;
+    for (var j = 0; j < stars.length; j += 3) {
+      var a = stars[j];
+      for (var k = j + 1; k < stars.length; k += 3) {
+        var b = stars[k];
+        var dx2 = a.x - b.x;
+        var dy2 = a.y - b.y;
+        var d2 = dx2 * dx2 + dy2 * dy2;
+        if (d2 < 10000) {
+          ctx.globalAlpha = (1 - Math.sqrt(d2) / 100) * (isDark ? 0.12 : 0.06);
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // Shooting star
+    if (shooting.active) {
+      shooting.life++;
+      if (shooting.life > shooting.maxLife) {
+        shooting.active = false;
+      } else {
+        var p = shooting.life / shooting.maxLife;
+        var alpha = Math.sin(p * Math.PI) * 0.8;
+        // Head
+        ctx.beginPath();
+        ctx.arc(shooting.x, shooting.y, 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,240,220,' + alpha + ')';
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(255,200,150,0.4)';
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        // Trail
+        var trailLen = 20;
+        for (var t = 1; t < trailLen; t++) {
+          var tp = t / trailLen;
+          var tx = shooting.x - shooting.vx * tp * 1.5;
+          var ty = shooting.y - shooting.vy * tp * 1.5;
+          var ta = alpha * (1 - tp);
+          ctx.beginPath();
+          ctx.arc(tx, ty, 1.2 * (1 - tp), 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,220,200,' + ta * 0.5 + ')';
+          ctx.fill();
+        }
+        shooting.x += shooting.vx;
+        shooting.y += shooting.vy;
+      }
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  // Init
+  resize();
+  createStars(NUM_STARS);
+
+  // Spawn shooting star periodically
+  setInterval(function() {
+    if (!shooting.active) spawnShootingStar();
+  }, 4000 + Math.random() * 3000);
+
+  // Mouse tracking
+  document.addEventListener('mousemove', function(e) {
+    var rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+  });
+  document.addEventListener('mouseleave', function() {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  // Resize handler
+  window.addEventListener('resize', function() {
+    resize();
+    createStars(NUM_STARS);
+  });
+
+  // Theme change: recreate stars with new colors
+  var themeObserver = new MutationObserver(function() {
+    createStars(NUM_STARS);
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // Start animation
+  draw(0);
+
+  // Pause when not visible
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden && animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    } else if (!document.hidden && !animId) {
+      draw(performance.now());
+    }
+  });
+})();
