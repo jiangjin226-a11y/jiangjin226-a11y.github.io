@@ -1,148 +1,333 @@
 /* ============================================================
-   蒋红梅 · 个人主页 — Noth.in 风格动态特效
+   蒋红梅 · Noth.in 风格排版与入场特效
    ============================================================ */
 
-#customCursor {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  background: var(--b-900);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
-  transition: transform 0.15s ease-out, width 0.3s, height 0.3s, background 0.3s;
-  transform: translate(-50%, -50%);
-  will-change: left, top;
-  mix-blend-mode: difference;
-}
-#customCursor.hover {
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  border: 1.5px solid var(--b-900);
-}
-#cursorTrail {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  background: var(--b-900);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99998;
-  opacity: 0.4;
-  transform: translate(-50%, -50%);
-  will-change: left, top;
-  mix-blend-mode: difference;
-}
+/* ─── Noth.in 字体 ─── */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
-#pageLoader {
+/* ─── 加载器 ─── */
+#nothinLoader {
   position: fixed;
   inset: 0;
-  z-index: 99990;
+  z-index: 99995;
   background: var(--b-0);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
+  transition: opacity 0.9s ease, visibility 0.9s ease;
 }
-#pageLoader.loaded {
+#nothinLoader.loaded {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-.loader-inner { text-align: center; }
-.loader-name {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--b-900);
-  letter-spacing: 4px;
-  opacity: 0;
-  animation: loaderReveal 1.2s ease forwards;
+.loader-nothin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
 }
-.loader-sub {
-  font-size: 0.75rem;
-  color: var(--b-400);
+.loader-nothin-inner {
+  text-align: center;
+  z-index: 2;
+  position: relative;
+}
+.loader-name-reveal {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--b-900);
   letter-spacing: 6px;
+  font-family: 'Inter', sans-serif;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: loaderNameIn 0.8s ease 0.6s forwards;
+}
+.loader-sub-reveal {
+  font-size: 0.7rem;
+  color: var(--b-400);
+  letter-spacing: 8px;
   text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
   margin-top: 8px;
   opacity: 0;
-  animation: loaderReveal 1.2s ease 0.3s forwards;
+  animation: loaderNameIn 0.8s ease 0.9s forwards;
 }
-.loader-bar {
-  width: 0;
-  height: 1px;
-  background: var(--b-900);
-  margin-top: 24px;
-  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes loaderReveal {
-  from { opacity: 0; transform: translateY(12px); }
+@keyframes loaderNameIn {
   to { opacity: 1; transform: translateY(0); }
 }
 
-#grainOverlay {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9998;
-  pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
-}
-[data-theme="dark"] #grainOverlay {
-  opacity: 0.05;
-  mix-blend-mode: screen;
+/* 加载器计数器 */
+.loader-counter {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1rem;
+  color: var(--b-300);
+  letter-spacing: 4px;
+  font-weight: 500;
 }
 
+/* 加载器浮动装饰图 */
+.loader-float {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  animation: floatIn 0.6s ease forwards;
+}
+.loader-float img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1) contrast(1.1);
+}
+.loader-float._1 {
+  width: 80px; height: 80px;
+  top: -30px; right: -50px;
+  animation-delay: 0.2s;
+}
+.loader-float._2 {
+  width: 60px; height: 60px;
+  bottom: -20px; left: -40px;
+  animation-delay: 0.4s;
+}
+.loader-float._3 {
+  width: 50px; height: 50px;
+  top: 50%; left: -60px;
+  animation-delay: 0.3s;
+}
+.loader-float._4 {
+  width: 45px; height: 45px;
+  bottom: 30%; right: -50px;
+  animation-delay: 0.5s;
+}
+@keyframes floatIn {
+  from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+  to { opacity: 0.5; transform: scale(1) rotate(0); }
+}
+
+/* 加载进度条 */
+.loader-progress-track {
+  width: 120px;
+  height: 1px;
+  background: var(--b-200);
+  margin-top: 32px;
+  overflow: hidden;
+  opacity: 0;
+  animation: loaderNameIn 0.6s ease 1.2s forwards;
+}
+.loader-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--b-900);
+  transition: width 0.3s ease;
+}
+
+/* ─── 入场动画系统 ─── */
+[data-enter] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-enter].entered {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 行揭示动画 */
+[data-line] {
+  overflow: hidden;
+  position: relative;
+  display: block;
+}
+[data-line] .line-inner {
+  display: block;
+  transform: translateY(100%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+[data-line].entered .line-inner {
+  transform: translateY(0);
+}
+
+/* 缩放入场 */
+[data-zoom] {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-zoom].entered {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─── 自定义光标 ─── */
+#nothinCursor {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--b-900);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+  mix-blend-mode: difference;
+  transition: width 0.25s, height 0.25s, background 0.25s;
+}
+#nothinCursor.hover {
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: 1.5px solid var(--b-900);
+}
+#nothinCursor.hover-dot {
+  width: 6px;
+  height: 6px;
+}
+
+/* ─── Noth.in 风格排版 ─── */
+.nothin-section-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--b-400);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.nothin-h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800;
+  color: var(--b-900);
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+
+.nothin-h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--b-900);
+  letter-spacing: -1px;
+  line-height: 1.15;
+}
+
+.nothin-p {
+  font-size: 0.95rem;
+  color: var(--b-500);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ─── Noth.in 风格间距 ─── */
+.nothin-space-150 { height: 150px; }
+.nothin-space-87 { height: 87px; }
+.nothin-space-65 { height: 65px; }
+.nothin-space-24 { height: 24px; }
+.nothin-space-12 { height: 12px; }
+
+.hero-nothin-name {
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 800;
+  color: var(--b-900);
+  letter-spacing: -4px;
+  line-height: 0.9;
+  text-align: center;
+}
+
+/* ─── 英雄区背景 ─── */
+.hero-nothin-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--b-0);
+}
+[data-theme="dark"] .hero-nothin-bg {
+  background: var(--b-950);
+}
+
+/* ─── 导航 noth.in 风格 ─── */
+.nav-nothin {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  mix-blend-mode: difference;
+  color: white;
+}
+.nav-nothin-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.nav-nothin-links a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+.nav-nothin-links a:hover { opacity: 1; }
+
+/* ─── 视差装饰 ─── */
 .parallax-decor {
   position: fixed;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.12;
   will-change: transform;
 }
-[data-theme="dark"] .parallax-decor { opacity: 0.08; }
 .parallax-decor img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   filter: grayscale(1) contrast(1.2);
+  opacity: 0.08;
 }
-.parallax-decor._1 { width: 280px; height: 280px; top: 15%; right: -60px; }
-.parallax-decor._2 { width: 200px; height: 200px; bottom: 20%; left: -40px; }
-.parallax-decor._3 { width: 160px; height: 160px; top: 50%; right: 10%; }
+[data-theme="dark"] .parallax-decor img { opacity: 0.06; }
+.parallax-decor._1 { width: 300px; height: 300px; top: 10%; right: -80px; }
+.parallax-decor._2 { width: 200px; height: 200px; bottom: 15%; left: -60px; }
+.parallax-decor._3 { width: 150px; height: 150px; top: 45%; right: 15%; }
 
-.reveal-line { overflow: hidden; position: relative; }
-.reveal-line .reveal-inner {
-  display: block;
-  transform: translateY(100%);
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
-.reveal-line.visible .reveal-inner { transform: translateY(0); }
-
-.card-enter {
+/* ─── 卡片入场 ─── */
+.card-nothin {
   opacity: 0;
-  transform: translateY(30px) scale(0.97);
+  transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.card-enter.visible {
+.card-nothin.entered {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
-.link-underline {
+/* ─── 链接悬停下划线 ─── */
+.link-nothin {
   position: relative;
   text-decoration: none !important;
   display: inline-block;
 }
-.link-underline::after {
+.link-nothin::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -1px;
+  bottom: -2px;
   width: 100%;
   height: 1px;
   background: currentColor;
@@ -150,30 +335,40 @@
   transform-origin: right;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.link-underline:hover::after {
+.link-nothin:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
 
-.fade-scroll {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.fade-scroll.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Hide default cursor */
-html.custom-cursor-active,
-html.custom-cursor-active * {
+/* ─── 隐藏默认光标 ─── */
+html.nothin-cursor-active,
+html.nothin-cursor-active * {
   cursor: none !important;
 }
 
+/* ─── 噪声纹理覆盖层 ─── */
+#nothinNoise {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9997;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+}
+[data-theme="dark"] #nothinNoise {
+  opacity: 0.045;
+  mix-blend-mode: screen;
+}
+
+/* 移动端禁用 */
 @media (max-width: 768px) {
-  #customCursor, #cursorTrail, #grainOverlay,
+  #nothinCursor, #nothinNoise,
   .parallax-decor { display: none !important; }
-  html.custom-cursor-active,
-  html.custom-cursor-active * { cursor: auto !important; }
+  html.nothin-cursor-active,
+  html.nothin-cursor-active * { cursor: auto !important; }
+  .nav-nothin { padding: 14px 20px; }
+  .nav-nothin-links { gap: 14px; font-size: 0.65rem; }
+  .hero-nothin-name { font-size: clamp(2.8rem, 15vw, 5rem); letter-spacing: -2px; }
 }
