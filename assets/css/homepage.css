@@ -996,12 +996,23 @@ a:hover { color: var(--accent-hover); }
 [data-theme="dark"] .edu-card, [data-theme="dark"] .philosophy-card, [data-theme="dark"] .contact-card { background: var(--b-50); }
 [data-theme="dark"] .skill-back { background: var(--b-50); }
 [data-theme="dark"] .tag { background: rgba(255,255,255,0.05); }
-[data-theme="dark"] .course-badge { border-color: transparent; }
+[data-theme="dark"] .course-badge {
+  background: rgba(255,255,255,0.1) !important;
+  color: #e0e0e0 !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
 [data-theme="dark"] .stat-item { background: var(--b-50); }
 [data-theme="dark"] .tool-tag { background: var(--b-50); }
 [data-theme="dark"] .tl-tag { background: var(--b-100); }
 [data-theme="dark"] .theme-toggle { background: var(--b-50); border-color: var(--b-200); }
 [data-theme="dark"] .edu-year { background: var(--b-100); }
+[data-theme="dark"] .course-badge-desc {
+  background: #2a2a2a !important;
+  color: #e0e0e0 !important;
+}
+[data-theme="dark"] .course-badge-desc::after {
+  border-top-color: #2a2a2a !important;
+}
 [data-theme="dark"] .contact-item { background: var(--b-50); }
 [data-theme="dark"] .nav-link.active { background: rgba(255,255,255,0.1); color: var(--b-0); }
 
