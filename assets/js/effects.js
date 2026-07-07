@@ -8,30 +8,37 @@
   var isMobile = window.innerWidth <= 768;
 
   // ═══════════════════════════════════════════════
-  // 1. LOADER — 完全克隆 noth.in 风格
+  
+  // 1. LOADER — 丰富入场效果
   // ═══════════════════════════════════════════════
   (function() {
     var played = sessionStorage.getItem('nothinLoader');
     if (played) {
-      // 直接显示页面内容 — 跳过加载器
       document.documentElement.classList.remove('nothin-cursor-active');
       return;
     }
 
-    // 创建加载器
     var loader = document.createElement('div');
     loader.id = 'nothinLoader';
 
-    // 加载器内部结构
+    // 背景光晕
+    var glow = document.createElement('div');
+    glow.className = 'loader-glow';
+    loader.appendChild(glow);
+
     var inner = document.createElement('div');
     inner.className = 'loader-nothin';
 
-    // 浮动装饰图（类似 noth.in 的循环图片）
+    // 8 张装饰图
     var decorImgs = [
       'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=200&q=80&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=200&q=80&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=200&q=80&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1549490349-8643362247b5?w=200&q=80&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1549490349-8643362247b5?w=200&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=200&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=200&q=80&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=200&q=80&auto=format&fit=crop'
     ];
 
     decorImgs.forEach(function(url, i) {
@@ -55,6 +62,11 @@
     subEl.textContent = 'Art & Technology';
     inner.appendChild(subEl);
 
+    // 竖向装饰线
+    var divider = document.createElement('div');
+    divider.className = 'loader-divider';
+    inner.appendChild(divider);
+
     // 进度条
     var track = document.createElement('div');
     track.className = 'loader-progress-track';
@@ -68,15 +80,31 @@
     counter.className = 'loader-counter';
     counter.textContent = '000';
 
+    // 底部提示
+    var hint = document.createElement('div');
+    hint.className = 'loader-hint';
+    hint.textContent = 'Loading experience';
+
     var innerWrapper = document.createElement('div');
     innerWrapper.className = 'loader-nothin-inner';
     innerWrapper.appendChild(inner);
     innerWrapper.appendChild(counter);
+    innerWrapper.appendChild(hint);
 
     loader.appendChild(innerWrapper);
-
-    // 插入加载器（注意 jellyfish canvas 的 z-index）
     document.body.insertBefore(loader, document.body.firstChild);
+
+    // 生成闪烁粒子
+    for (var s = 0; s < 20; s++) {
+      var spark = document.createElement('div');
+      spark.className = 'loader-sparkle';
+      spark.style.left = (10 + Math.random() * 80) + '%';
+      spark.style.top = (10 + Math.random() * 80) + '%';
+      spark.style.animationDelay = (Math.random() * 3) + 's';
+      spark.style.animation = 'loaderNameIn 0.5s ease ' + (0.5 + Math.random() * 2) + 's forwards, ' +
+        'sparkleFade ' + (1.5 + Math.random() * 2) + 's ease ' + (1 + Math.random() * 2) + 's infinite alternate';
+      innerWrapper.appendChild(spark);
+    }
 
     // 进度动画
     var progress = 0;
@@ -88,22 +116,25 @@
       counter.textContent = display;
       if (progress >= 100) {
         clearInterval(progressTimer);
-        // 加载完成，过渡到页面
         setTimeout(function() {
           loader.classList.add('loaded');
           sessionStorage.setItem('nothinLoader', '1');
-          // 启用入场动画
           setTimeout(function() {
             if (loader.parentNode) loader.parentNode.removeChild(loader);
-            // 触发页面入场
             initEntrance();
           }, 1500);
         }, 800);
       }
     }, 130 + Math.random() * 50);
+
+    // 添加 sparkleFade 动画到页面
+    var styleSheet = document.createElement('style');
+    styleSheet.textContent =
+      '@keyframes sparkleFade { 0% { opacity: 0.2; transform: scale(0.5); } 100% { opacity: 0.8; transform: scale(1.2); } }';
+    document.head.appendChild(styleSheet);
   })();
 
-  // 如果已播放过，直接入场
+// 如果已播放过，直接入场
   function initEntrance() {
     document.documentElement.classList.remove('nothin-cursor-active');
     // 触发英雄区入场
