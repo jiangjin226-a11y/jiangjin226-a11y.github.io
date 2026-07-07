@@ -81,7 +81,7 @@
     // 进度动画
     var progress = 0;
     var progressTimer = setInterval(function() {
-      progress += Math.random() * 8 + 3;
+      progress += Math.random() * 4 + 2;
       if (progress >= 100) progress = 100;
       fill.style.width = progress + '%';
       var display = String(Math.floor(progress)).padStart(3, '0');
@@ -97,10 +97,10 @@
             if (loader.parentNode) loader.parentNode.removeChild(loader);
             // 触发页面入场
             initEntrance();
-          }, 1000);
-        }, 400);
+          }, 1500);
+        }, 800);
       }
-    }, 80 + Math.random() * 40);
+    }, 130 + Math.random() * 50);
   })();
 
   // 如果已播放过，直接入场
