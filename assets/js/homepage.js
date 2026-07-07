@@ -217,48 +217,9 @@ function debounce(fn, wait) {
 })();
 
 // ═══════════════════════════════════════════════
-// 9. INTERSECTION OBSERVER: card stagger + fade
-// ═══════════════════════════════════════════════
-(function() {
-  var staggerGroups = [
-    { container: '.skills-grid', items: '.skill-card' },
-    { container: '.timeline', items: '.tl-item' },
-    { container: '.works-grid', items: '.work-card' },
-    { container: '.eval-grid', items: '.eval-card' },
-    { container: '.about-stats', items: '.stat-item' },
-  ];
+// 9. DISABLED - handled by effects.js
+(function() {})();
 
-  staggerGroups.forEach(function(group) {
-    var container = document.querySelector(group.container);
-    if (!container) return;
-    var items = container.querySelectorAll(group.items);
-    if (!items.length) return;
-
-    if (!('IntersectionObserver' in window)) {
-      items.forEach(function(el) { el.classList.add('visible'); });
-      return;
-    }
-
-    var triggered = false;
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting && !triggered) {
-          triggered = true;
-          items.forEach(function(item, i) {
-            setTimeout(function() {
-              item.classList.add('visible');
-            }, i * 100);
-          });
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    observer.observe(container);
-  });
-})();
-
-// ═══════════════════════════════════════════════
 // 10. SKILL BAR ANIMATE ON SCROLL
 // ═══════════════════════════════════════════════
 (function() {
@@ -325,40 +286,9 @@ function debounce(fn, wait) {
 })();
 
 // ═══════════════════════════════════════════════
-// 12. SECTION TITLES: fade in on scroll
-// ═══════════════════════════════════════════════
-(function() {
-  var titles = document.querySelectorAll('.section-title');
-  if (!titles.length) return;
+// 12. DISABLED - handled by effects.js
+(function() {})();
 
-  titles.forEach(function(t) {
-    t.style.opacity = '0';
-    t.style.transform = 'translateY(12px)';
-    t.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  });
-
-  if (!('IntersectionObserver' in window)) {
-    titles.forEach(function(t) {
-      t.style.opacity = '1';
-      t.style.transform = 'translateY(0)';
-    });
-    return;
-  }
-
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  titles.forEach(function(t) { observer.observe(t); });
-})();
-
-// ═══════════════════════════════════════════════
 // 13. SCROLL TO TOP
 // ═══════════════════════════════════════════════
 (function() {

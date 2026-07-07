@@ -1,0 +1,179 @@
+/* ============================================================
+   蒋红梅 · 个人主页 — Noth.in 风格动态特效
+   ============================================================ */
+
+#customCursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: var(--b-900);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.15s ease-out, width 0.3s, height 0.3s, background 0.3s;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+  mix-blend-mode: difference;
+}
+#customCursor.hover {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1.5px solid var(--b-900);
+}
+#cursorTrail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--b-900);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  opacity: 0.4;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+  mix-blend-mode: difference;
+}
+
+#pageLoader {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  background: var(--b-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#pageLoader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-inner { text-align: center; }
+.loader-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--b-900);
+  letter-spacing: 4px;
+  opacity: 0;
+  animation: loaderReveal 1.2s ease forwards;
+}
+.loader-sub {
+  font-size: 0.75rem;
+  color: var(--b-400);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-top: 8px;
+  opacity: 0;
+  animation: loaderReveal 1.2s ease 0.3s forwards;
+}
+.loader-bar {
+  width: 0;
+  height: 1px;
+  background: var(--b-900);
+  margin-top: 24px;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes loaderReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#grainOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+[data-theme="dark"] #grainOverlay {
+  opacity: 0.05;
+  mix-blend-mode: screen;
+}
+
+.parallax-decor {
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.12;
+  will-change: transform;
+}
+[data-theme="dark"] .parallax-decor { opacity: 0.08; }
+.parallax-decor img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1) contrast(1.2);
+}
+.parallax-decor._1 { width: 280px; height: 280px; top: 15%; right: -60px; }
+.parallax-decor._2 { width: 200px; height: 200px; bottom: 20%; left: -40px; }
+.parallax-decor._3 { width: 160px; height: 160px; top: 50%; right: 10%; }
+
+.reveal-line { overflow: hidden; position: relative; }
+.reveal-line .reveal-inner {
+  display: block;
+  transform: translateY(100%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.reveal-line.visible .reveal-inner { transform: translateY(0); }
+
+.card-enter {
+  opacity: 0;
+  transform: translateY(30px) scale(0.97);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-enter.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.link-underline {
+  position: relative;
+  text-decoration: none !important;
+  display: inline-block;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.fade-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide default cursor */
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+@media (max-width: 768px) {
+  #customCursor, #cursorTrail, #grainOverlay,
+  .parallax-decor { display: none !important; }
+  html.custom-cursor-active,
+  html.custom-cursor-active * { cursor: auto !important; }
+}
